@@ -1,0 +1,42 @@
+#container{
+  margin-top:0;
+  margin-bottom:0;
+  margin-left:auto;
+  margin-right:auto;
+  width: 600px;
+  background-color: red;
+}
+
+
+/*#row1{
+  height: 200px;
+  background:url('image.jpg');
+  background-repeat: no-repeat;
+}
+#row1col1, #row1col2, #row1col3{
+  height: 100px;
+  width: 33%;
+  margin-top: 40px;
+  display: inline-block;
+  background-color: black;
+}
+#inner-div{
+  height: 50px;
+  background-color: pink;
+  width: 50%;
+}
+#row2{
+  height: 200px;
+  background-color: blue;
+}
+#row2col1, #row2col2{
+  background-color: green;
+  width: 49%;
+  display: inline-block;
+  height: 100px;
+  margin-top: 40px;
+}
+#row3{
+  height: 200px;
+  background-color: yellow;
+}*/

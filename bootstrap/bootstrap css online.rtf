@@ -1,0 +1,2409 @@
+{\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fnil\fcharset0 Calibri;}{\f1\fnil\fcharset1 Cambria Math;}{\f2\fnil Calibri;}{\f3\fnil\fcharset1 Segoe UI Symbol;}}
+{\colortbl ;\red0\green0\blue255;}
+{\*\generator Riched20 10.0.14393}{\*\mmathPr\mmathFont1\mwrapIndent1440 }\viewkind4\uc1 
+\pard\sa200\sl276\slmult1\f0\fs22\lang9 Overview\par
+\par
+Get the lowdown on the key pieces of Bootstrap's infrastructure, including our approach to better, faster, stronger web development.\par
+\par
+HTML5 doctype\par
+Bootstrap makes use of certain HTML elements and CSS properties that require the use of the HTML5 doctype. Include it at the beginning of all your projects.\par
+\par
+Copy\par
+<!DOCTYPE html>\par
+<html lang="en">\par
+  ...\par
+</html>\par
+Mobile first\par
+With Bootstrap 2, we added optional mobile friendly styles for key aspects of the framework. With Bootstrap 3, we've rewritten the project to be mobile friendly from the start. Instead of adding on optional mobile styles, they're baked right into the core. In fact, Bootstrap is mobile first. Mobile first styles can be found throughout the entire library instead of in separate files.\par
+\par
+To ensure proper rendering and touch zooming, add the viewport meta tag to your <head>.\par
+\par
+Copy\par
+<meta name="viewport" content="width=device-width, initial-scale=1">\par
+You can disable zooming capabilities on mobile devices by adding user-scalable=no to the viewport meta tag. This disables zooming, meaning users are only able to scroll, and results in your site feeling a bit more like a native application. Overall, we don't recommend this on every site, so use caution!\par
+\par
+Copy\par
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">\par
+Typography and links\par
+Bootstrap sets basic global display, typography, and link styles. Specifically, we:\par
+\par
+Set background-color: #fff; on the body\par
+Use the @font-family-base, @font-size-base, and @line-height-base attributes as our typographic base\par
+Set the global link color via @link-color and apply link underlines only on :hover\par
+These styles can be found within scaffolding.less.\par
+\par
+Normalize.css\par
+For improved cross-browser rendering, we use Normalize.css, a project by Nicolas Gallagher and Jonathan Neal.\par
+\par
+Containers\par
+Bootstrap requires a containing element to wrap site contents and house our grid system. You may choose one of two containers to use in your projects. Note that, due to padding and more, neither container is nestable.\par
+\par
+Use .container for a responsive fixed width container.\par
+\par
+Copy\par
+<div class="container">\par
+  ...\par
+</div>\par
+Use .container-fluid for a full width container, spanning the entire width of your viewport.\par
+\par
+Copy\par
+<div class="container-fluid">\par
+  ...\par
+</div>\par
+Grid system\par
+\par
+Bootstrap includes a responsive, mobile first fluid grid system that appropriately scales up to 12 columns as the device or viewport size increases. It includes predefined classes for easy layout options, as well as powerful mixins for generating more semantic layouts.\par
+\par
+Introduction\par
+Grid systems are used for creating page layouts through a series of rows and columns that house your content. Here's how the Bootstrap grid system works:\par
+\par
+Rows must be placed within a .container (fixed-width) or .container-fluid (full-width) for proper alignment and padding.\par
+Use rows to create horizontal groups of columns.\par
+Content should be placed within columns, and only columns may be immediate children of rows.\par
+Predefined grid classes like .row and .col-xs-4 are available for quickly making grid layouts. Less mixins can also be used for more semantic layouts.\par
+Columns create gutters (gaps between column content) via padding. That padding is offset in rows for the first and last column via negative margin on .rows.\par
+The negative margin is why the examples below are outdented. It's so that content within grid columns is lined up with non-grid content.\par
+Grid columns are created by specifying the number of twelve available columns you wish to span. For example, three equal columns would use three .col-xs-4.\par
+If more than 12 columns are placed within a single row, each group of extra columns will, as one unit, wrap onto a new line.\par
+Grid classes apply to devices with screen widths greater than or equal to the breakpoint sizes, and override grid classes targeted at smaller devices. Therefore, e.g. applying any .col-md-* class to an element will not only affect its styling on medium devices but also on large devices if a .col-lg-* class is not present.\par
+Look to the examples for applying these principles to your code.\par
+\par
+Media queries\par
+We use the following media queries in our Less files to create the key breakpoints in our grid system.\par
+\par
+Copy\par
+/* Extra small devices (phones, less than 768px) */\par
+/* No media query since this is the default in Bootstrap */\par
+\par
+/* Small devices (tablets, 768px and up) */\par
+@media (min-width: @screen-sm-min) \{ ... \}\par
+\par
+/* Medium devices (desktops, 992px and up) */\par
+@media (min-width: @screen-md-min) \{ ... \}\par
+\par
+/* Large devices (large desktops, 1200px and up) */\par
+@media (min-width: @screen-lg-min) \{ ... \}\par
+We occasionally expand on these media queries to include a max-width to limit CSS to a narrower set of devices.\par
+\par
+Copy\par
+@media (max-width: @screen-xs-max) \{ ... \}\par
+@media (min-width: @screen-sm-min) and (max-width: @screen-sm-max) \{ ... \}\par
+@media (min-width: @screen-md-min) and (max-width: @screen-md-max) \{ ... \}\par
+@media (min-width: @screen-lg-min) \{ ... \}\par
+Grid options\par
+See how aspects of the Bootstrap grid system work across multiple devices with a handy table.\par
+\par
+Extra small devices Phones (<768px)\tab Small devices Tablets (\f1\u8805?\f0 768px)\tab Medium devices Desktops (\f1\u8805?\f0 992px)\tab Large devices Desktops (\f1\u8805?\f0 1200px)\par
+Grid behavior\tab Horizontal at all times\tab Collapsed to start, horizontal above breakpoints\par
+Container width\tab None (auto)\tab 750px\tab 970px\tab 1170px\par
+Class prefix\tab .col-xs-\tab .col-sm-\tab .col-md-\tab .col-lg-\par
+# of columns\tab 12\par
+Column width\tab Auto\tab ~62px\tab ~81px\tab ~97px\par
+Gutter width\tab 30px (15px on each side of a column)\par
+Nestable\tab Yes\par
+Offsets\tab Yes\par
+Column ordering\tab Yes\par
+Example: Stacked-to-horizontal\par
+Using a single set of .col-md-* grid classes, you can create a basic grid system that starts out stacked on mobile devices and tablet devices (the extra small to small range) before becoming horizontal on desktop (medium) devices. Place grid columns in any .row.\par
+\par
+.col-md-1.col-md-1.col-md-1.col-md-1.col-md-1.col-md-1.col-md-1.col-md-1.col-md-1.col-md-1.col-md-1.col-md-1\par
+.col-md-8.col-md-4\par
+.col-md-4.col-md-4.col-md-4\par
+.col-md-6.col-md-6\par
+Copy\par
+<div class="row">\par
+  <div class="col-md-1">.col-md-1</div>\par
+  <div class="col-md-1">.col-md-1</div>\par
+  <div class="col-md-1">.col-md-1</div>\par
+  <div class="col-md-1">.col-md-1</div>\par
+  <div class="col-md-1">.col-md-1</div>\par
+  <div class="col-md-1">.col-md-1</div>\par
+  <div class="col-md-1">.col-md-1</div>\par
+  <div class="col-md-1">.col-md-1</div>\par
+  <div class="col-md-1">.col-md-1</div>\par
+  <div class="col-md-1">.col-md-1</div>\par
+  <div class="col-md-1">.col-md-1</div>\par
+  <div class="col-md-1">.col-md-1</div>\par
+</div>\par
+<div class="row">\par
+  <div class="col-md-8">.col-md-8</div>\par
+  <div class="col-md-4">.col-md-4</div>\par
+</div>\par
+<div class="row">\par
+  <div class="col-md-4">.col-md-4</div>\par
+  <div class="col-md-4">.col-md-4</div>\par
+  <div class="col-md-4">.col-md-4</div>\par
+</div>\par
+<div class="row">\par
+  <div class="col-md-6">.col-md-6</div>\par
+  <div class="col-md-6">.col-md-6</div>\par
+</div>\par
+Example: Fluid container\par
+Turn any fixed-width grid layout into a full-width layout by changing your outermost .container to .container-fluid.\par
+\par
+Copy\par
+<div class="container-fluid">\par
+  <div class="row">\par
+    ...\par
+  </div>\par
+</div>\par
+Example: Mobile and desktop\par
+Don't want your columns to simply stack in smaller devices? Use the extra small and medium device grid classes by adding .col-xs-* .col-md-* to your columns. See the example below for a better idea of how it all works.\par
+\par
+.col-xs-12 .col-md-8.col-xs-6 .col-md-4\par
+.col-xs-6 .col-md-4.col-xs-6 .col-md-4.col-xs-6 .col-md-4\par
+.col-xs-6.col-xs-6\par
+Copy\par
+<!-- Stack the columns on mobile by making one full-width and the other half-width -->\par
+<div class="row">\par
+  <div class="col-xs-12 col-md-8">.col-xs-12 .col-md-8</div>\par
+  <div class="col-xs-6 col-md-4">.col-xs-6 .col-md-4</div>\par
+</div>\par
+\par
+<!-- Columns start at 50% wide on mobile and bump up to 33.3% wide on desktop -->\par
+<div class="row">\par
+  <div class="col-xs-6 col-md-4">.col-xs-6 .col-md-4</div>\par
+  <div class="col-xs-6 col-md-4">.col-xs-6 .col-md-4</div>\par
+  <div class="col-xs-6 col-md-4">.col-xs-6 .col-md-4</div>\par
+</div>\par
+\par
+<!-- Columns are always 50% wide, on mobile and desktop -->\par
+<div class="row">\par
+  <div class="col-xs-6">.col-xs-6</div>\par
+  <div class="col-xs-6">.col-xs-6</div>\par
+</div>\par
+Example: Mobile, tablet, desktop\par
+Build on the previous example by creating even more dynamic and powerful layouts with tablet .col-sm-* classes.\par
+\par
+.col-xs-12 .col-sm-6 .col-md-8.col-xs-6 .col-md-4\par
+.col-xs-6 .col-sm-4.col-xs-6 .col-sm-4.col-xs-6 .col-sm-4\par
+Copy\par
+<div class="row">\par
+  <div class="col-xs-12 col-sm-6 col-md-8">.col-xs-12 .col-sm-6 .col-md-8</div>\par
+  <div class="col-xs-6 col-md-4">.col-xs-6 .col-md-4</div>\par
+</div>\par
+<div class="row">\par
+  <div class="col-xs-6 col-sm-4">.col-xs-6 .col-sm-4</div>\par
+  <div class="col-xs-6 col-sm-4">.col-xs-6 .col-sm-4</div>\par
+  <!-- Optional: clear the XS cols if their content doesn't match in height -->\par
+  <div class="clearfix visible-xs-block"></div>\par
+  <div class="col-xs-6 col-sm-4">.col-xs-6 .col-sm-4</div>\par
+</div>\par
+Example: Column wrapping\par
+If more than 12 columns are placed within a single row, each group of extra columns will, as one unit, wrap onto a new line.\par
+\par
+.col-xs-9.col-xs-4\par
+Since 9 + 4 = 13 > 12, this 4-column-wide div gets wrapped onto a new line as one contiguous unit..col-xs-6\par
+Subsequent columns continue along the new line.\par
+Copy\par
+<div class="row">\par
+  <div class="col-xs-9">.col-xs-9</div>\par
+  <div class="col-xs-4">.col-xs-4<br>Since 9 + 4 = 13 &gt; 12, this 4-column-wide div gets wrapped onto a new line as one contiguous unit.</div>\par
+  <div class="col-xs-6">.col-xs-6<br>Subsequent columns continue along the new line.</div>\par
+</div>\par
+Responsive column resets\par
+With the four tiers of grids available you're bound to run into issues where, at certain breakpoints, your columns don't clear quite right as one is taller than the other. To fix that, use a combination of a .clearfix and our responsive utility classes.\par
+\par
+.col-xs-6 .col-sm-3 \par
+Resize your viewport or check it out on your phone for an example. .col-xs-6 .col-sm-3.col-xs-6 .col-sm-3.col-xs-6 .col-sm-3\par
+Copy\par
+<div class="row">\par
+  <div class="col-xs-6 col-sm-3">.col-xs-6 .col-sm-3</div>\par
+  <div class="col-xs-6 col-sm-3">.col-xs-6 .col-sm-3</div>\par
+\par
+  <!-- Add the extra clearfix for only the required viewport -->\par
+  <div class="clearfix visible-xs-block"></div>\par
+\par
+  <div class="col-xs-6 col-sm-3">.col-xs-6 .col-sm-3</div>\par
+  <div class="col-xs-6 col-sm-3">.col-xs-6 .col-sm-3</div>\par
+</div>\par
+In addition to column clearing at responsive breakpoints, you may need to reset offsets, pushes, or pulls. See this in action in the grid example.\par
+\par
+Copy\par
+<div class="row">\par
+  <div class="col-sm-5 col-md-6">.col-sm-5 .col-md-6</div>\par
+  <div class="col-sm-5 col-sm-offset-2 col-md-6 col-md-offset-0">.col-sm-5 .col-sm-offset-2 .col-md-6 .col-md-offset-0</div>\par
+</div>\par
+\par
+<div class="row">\par
+  <div class="col-sm-6 col-md-5 col-lg-6">.col-sm-6 .col-md-5 .col-lg-6</div>\par
+  <div class="col-sm-6 col-md-5 col-md-offset-2 col-lg-6 col-lg-offset-0">.col-sm-6 .col-md-5 .col-md-offset-2 .col-lg-6 .col-lg-offset-0</div>\par
+</div>\par
+Offsetting columns\par
+Move columns to the right using .col-md-offset-* classes. These classes increase the left margin of a column by * columns. For example, .col-md-offset-4 moves .col-md-4 over four columns.\par
+\par
+.col-md-4.col-md-4 .col-md-offset-4\par
+.col-md-3 .col-md-offset-3.col-md-3 .col-md-offset-3\par
+.col-md-6 .col-md-offset-3\par
+Copy\par
+<div class="row">\par
+  <div class="col-md-4">.col-md-4</div>\par
+  <div class="col-md-4 col-md-offset-4">.col-md-4 .col-md-offset-4</div>\par
+</div>\par
+<div class="row">\par
+  <div class="col-md-3 col-md-offset-3">.col-md-3 .col-md-offset-3</div>\par
+  <div class="col-md-3 col-md-offset-3">.col-md-3 .col-md-offset-3</div>\par
+</div>\par
+<div class="row">\par
+  <div class="col-md-6 col-md-offset-3">.col-md-6 .col-md-offset-3</div>\par
+</div>\par
+You can also override offsets from lower grid tiers with .col-*-offset-0 classes.\par
+\par
+Copy\par
+<div class="row">\par
+  <div class="col-xs-6 col-sm-4">\par
+  </div>\par
+  <div class="col-xs-6 col-sm-4">\par
+  </div>\par
+  <div class="col-xs-6 col-xs-offset-3 col-sm-4 col-sm-offset-0">\par
+  </div>\par
+</div>\par
+Nesting columns\par
+To nest your content with the default grid, add a new .row and set of .col-sm-* columns within an existing .col-sm-* column. Nested rows should include a set of columns that add up to 12 or fewer (it is not required that you use all 12 available columns).\par
+\par
+Level 1: .col-sm-9\par
+Level 2: .col-xs-8 .col-sm-6 Level 2: .col-xs-4 .col-sm-6\par
+Copy\par
+<div class="row">\par
+  <div class="col-sm-9">\par
+    Level 1: .col-sm-9\par
+    <div class="row">\par
+      <div class="col-xs-8 col-sm-6">\par
+        Level 2: .col-xs-8 .col-sm-6\par
+      </div>\par
+      <div class="col-xs-4 col-sm-6">\par
+        Level 2: .col-xs-4 .col-sm-6\par
+      </div>\par
+    </div>\par
+  </div>\par
+</div>\par
+Column ordering\par
+Easily change the order of our built-in grid columns with .col-md-push-* and .col-md-pull-* modifier classes.\par
+\par
+.col-md-9 .col-md-push-3.col-md-3 .col-md-pull-9\par
+Copy\par
+<div class="row">\par
+  <div class="col-md-9 col-md-push-3">.col-md-9 .col-md-push-3</div>\par
+  <div class="col-md-3 col-md-pull-9">.col-md-3 .col-md-pull-9</div>\par
+</div>\par
+Less mixins and variables\par
+In addition to prebuilt grid classes for fast layouts, Bootstrap includes Less variables and mixins for quickly generating your own simple, semantic layouts.\par
+\par
+Variables\par
+Variables determine the number of columns, the gutter width, and the media query point at which to begin floating columns. We use these to generate the predefined grid classes documented above, as well as for the custom mixins listed below.\par
+\par
+Copy\par
+@grid-columns:              12;\par
+@grid-gutter-width:         30px;\par
+@grid-float-breakpoint:     768px;\par
+Mixins\par
+Mixins are used in conjunction with the grid variables to generate semantic CSS for individual grid columns.\par
+\par
+Copy\par
+// Creates a wrapper for a series of columns\par
+.make-row(@gutter: @grid-gutter-width) \{\par
+  // Then clear the floated columns\par
+  .clearfix();\par
+\par
+  @media (min-width: @screen-sm-min) \{\par
+    margin-left:  (@gutter / -2);\par
+    margin-right: (@gutter / -2);\par
+  \}\par
+\par
+  // Negative margin nested rows out to align the content of columns\par
+  .row \{\par
+    margin-left:  (@gutter / -2);\par
+    margin-right: (@gutter / -2);\par
+  \}\par
+\}\par
+\par
+// Generate the extra small columns\par
+.make-xs-column(@columns; @gutter: @grid-gutter-width) \{\par
+  position: relative;\par
+  // Prevent columns from collapsing when empty\par
+  min-height: 1px;\par
+  // Inner gutter via padding\par
+  padding-left:  (@gutter / 2);\par
+  padding-right: (@gutter / 2);\par
+\par
+  // Calculate width based on number of columns available\par
+  @media (min-width: @grid-float-breakpoint) \{\par
+    float: left;\par
+    width: percentage((@columns / @grid-columns));\par
+  \}\par
+\}\par
+\par
+// Generate the small columns\par
+.make-sm-column(@columns; @gutter: @grid-gutter-width) \{\par
+  position: relative;\par
+  // Prevent columns from collapsing when empty\par
+  min-height: 1px;\par
+  // Inner gutter via padding\par
+  padding-left:  (@gutter / 2);\par
+  padding-right: (@gutter / 2);\par
+\par
+  // Calculate width based on number of columns available\par
+  @media (min-width: @screen-sm-min) \{\par
+    float: left;\par
+    width: percentage((@columns / @grid-columns));\par
+  \}\par
+\}\par
+\par
+// Generate the small column offsets\par
+.make-sm-column-offset(@columns) \{\par
+  @media (min-width: @screen-sm-min) \{\par
+    margin-left: percentage((@columns / @grid-columns));\par
+  \}\par
+\}\par
+.make-sm-column-push(@columns) \{\par
+  @media (min-width: @screen-sm-min) \{\par
+    left: percentage((@columns / @grid-columns));\par
+  \}\par
+\}\par
+.make-sm-column-pull(@columns) \{\par
+  @media (min-width: @screen-sm-min) \{\par
+    right: percentage((@columns / @grid-columns));\par
+  \}\par
+\}\par
+\par
+// Generate the medium columns\par
+.make-md-column(@columns; @gutter: @grid-gutter-width) \{\par
+  position: relative;\par
+  // Prevent columns from collapsing when empty\par
+  min-height: 1px;\par
+  // Inner gutter via padding\par
+  padding-left:  (@gutter / 2);\par
+  padding-right: (@gutter / 2);\par
+\par
+  // Calculate width based on number of columns available\par
+  @media (min-width: @screen-md-min) \{\par
+    float: left;\par
+    width: percentage((@columns / @grid-columns));\par
+  \}\par
+\}\par
+\par
+// Generate the medium column offsets\par
+.make-md-column-offset(@columns) \{\par
+  @media (min-width: @screen-md-min) \{\par
+    margin-left: percentage((@columns / @grid-columns));\par
+  \}\par
+\}\par
+.make-md-column-push(@columns) \{\par
+  @media (min-width: @screen-md-min) \{\par
+    left: percentage((@columns / @grid-columns));\par
+  \}\par
+\}\par
+.make-md-column-pull(@columns) \{\par
+  @media (min-width: @screen-md-min) \{\par
+    right: percentage((@columns / @grid-columns));\par
+  \}\par
+\}\par
+\par
+// Generate the large columns\par
+.make-lg-column(@columns; @gutter: @grid-gutter-width) \{\par
+  position: relative;\par
+  // Prevent columns from collapsing when empty\par
+  min-height: 1px;\par
+  // Inner gutter via padding\par
+  padding-left:  (@gutter / 2);\par
+  padding-right: (@gutter / 2);\par
+\par
+  // Calculate width based on number of columns available\par
+  @media (min-width: @screen-lg-min) \{\par
+    float: left;\par
+    width: percentage((@columns / @grid-columns));\par
+  \}\par
+\}\par
+\par
+// Generate the large column offsets\par
+.make-lg-column-offset(@columns) \{\par
+  @media (min-width: @screen-lg-min) \{\par
+    margin-left: percentage((@columns / @grid-columns));\par
+  \}\par
+\}\par
+.make-lg-column-push(@columns) \{\par
+  @media (min-width: @screen-lg-min) \{\par
+    left: percentage((@columns / @grid-columns));\par
+  \}\par
+\}\par
+.make-lg-column-pull(@columns) \{\par
+  @media (min-width: @screen-lg-min) \{\par
+    right: percentage((@columns / @grid-columns));\par
+  \}\par
+\}\par
+Example usage\par
+You can modify the variables to your own custom values, or just use the mixins with their default values. Here's an example of using the default settings to create a two-column layout with a gap between.\par
+\par
+Copy\par
+.wrapper \{\par
+  .make-row();\par
+\}\par
+.content-main \{\par
+  .make-lg-column(8);\par
+\}\par
+.content-secondary \{\par
+  .make-lg-column(3);\par
+  .make-lg-column-offset(1);\par
+\}\par
+Copy\par
+<div class="wrapper">\par
+  <div class="content-main">...</div>\par
+  <div class="content-secondary">...</div>\par
+</div>\par
+Typography\par
+\par
+Headings\par
+All HTML headings, <h1> through <h6>, are available. .h1 through .h6 classes are also available, for when you want to match the font styling of a heading but still want your text to be displayed inline.\par
+\par
+h1. Bootstrap heading\par
+Semibold 36px\par
+h2. Bootstrap heading\par
+Semibold 30px\par
+h3. Bootstrap heading\par
+Semibold 24px\par
+h4. Bootstrap heading\par
+Semibold 18px\par
+h5. Bootstrap heading\par
+Semibold 14px\par
+h6. Bootstrap heading\par
+Semibold 12px\par
+Copy\par
+<h1>h1. Bootstrap heading</h1>\par
+<h2>h2. Bootstrap heading</h2>\par
+<h3>h3. Bootstrap heading</h3>\par
+<h4>h4. Bootstrap heading</h4>\par
+<h5>h5. Bootstrap heading</h5>\par
+<h6>h6. Bootstrap heading</h6>\par
+Create lighter, secondary text in any heading with a generic <small> tag or the .small class.\par
+\par
+h1. Bootstrap heading Secondary text\par
+h2. Bootstrap heading Secondary text\par
+h3. Bootstrap heading Secondary text\par
+h4. Bootstrap heading Secondary text\par
+h5. Bootstrap heading Secondary text\par
+h6. Bootstrap heading Secondary text\par
+Copy\par
+<h1>h1. Bootstrap heading <small>Secondary text</small></h1>\par
+<h2>h2. Bootstrap heading <small>Secondary text</small></h2>\par
+<h3>h3. Bootstrap heading <small>Secondary text</small></h3>\par
+<h4>h4. Bootstrap heading <small>Secondary text</small></h4>\par
+<h5>h5. Bootstrap heading <small>Secondary text</small></h5>\par
+<h6>h6. Bootstrap heading <small>Secondary text</small></h6>\par
+Body copy\par
+Bootstrap's global default font-size is 14px, with a line-height of 1.428. This is applied to the <body> and all paragraphs. In addition, <p> (paragraphs) receive a bottom margin of half their computed line-height (10px by default).\par
+\par
+Nullam quis risus eget urna mollis ornare vel eu leo. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nullam id dolor id nibh ultricies vehicula.\par
+\par
+Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec ullamcorper nulla non metus auctor fringilla. Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit. Donec ullamcorper nulla non metus auctor fringilla.\par
+\par
+Maecenas sed diam eget risus varius blandit sit amet non magna. Donec id elit non mi porta gravida at eget metus. Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit.\par
+Copy\par
+<p>...</p>\par
+Lead body copy\par
+Make a paragraph stand out by adding .lead.\par
+\par
+Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor. Duis mollis, est non commodo luctus.\par
+Copy\par
+<p class="lead">...</p>\par
+Built with Less\par
+The typographic scale is based on two Less variables in variables.less: @font-size-base and @line-height-base. The first is the base font-size used throughout and the second is the base line-height. We use those variables and some simple math to create the margins, paddings, and line-heights of all our type and more. Customize them and Bootstrap adapts.\par
+\par
+Inline text elements\par
+Marked text\par
+For highlighting a run of text due to its relevance in another context, use the <mark> tag.\par
+\par
+You can use the mark tag to highlight text.\par
+Copy\par
+You can use the mark tag to <mark>highlight</mark> text.\par
+Deleted text\par
+For indicating blocks of text that have been deleted use the <del> tag.\par
+\par
+This line of text is meant to be treated as deleted text.\par
+Copy\par
+<del>This line of text is meant to be treated as deleted text.</del>\par
+Strikethrough text\par
+For indicating blocks of text that are no longer relevant use the <s> tag.\par
+\par
+This line of text is meant to be treated as no longer accurate.\par
+Copy\par
+<s>This line of text is meant to be treated as no longer accurate.</s>\par
+Inserted text\par
+For indicating additions to the document use the <ins> tag.\par
+\par
+This line of text is meant to be treated as an addition to the document.\par
+Copy\par
+<ins>This line of text is meant to be treated as an addition to the document.</ins>\par
+Underlined text\par
+To underline text use the <u> tag.\par
+\par
+This line of text will render as underlined\par
+Copy\par
+<u>This line of text will render as underlined</u>\par
+Make use of HTML's default emphasis tags with lightweight styles.\par
+\par
+Small text\par
+For de-emphasizing inline or blocks of text, use the <small> tag to set text at 85% the size of the parent. Heading elements receive their own font-size for nested <small> elements.\par
+\par
+You may alternatively use an inline element with .small in place of any <small>.\par
+\par
+This line of text is meant to be treated as fine print.\par
+Copy\par
+<small>This line of text is meant to be treated as fine print.</small>\par
+Bold\par
+For emphasizing a snippet of text with a heavier font-weight.\par
+\par
+The following snippet of text is rendered as bold text.\par
+Copy\par
+<strong>rendered as bold text</strong>\par
+Italics\par
+For emphasizing a snippet of text with italics.\par
+\par
+The following snippet of text is rendered as italicized text.\par
+Copy\par
+<em>rendered as italicized text</em>\par
+Alternate elements\par
+Feel free to use <b> and <i> in HTML5. <b> is meant to highlight words or phrases without conveying additional importance while <i> is mostly for voice, technical terms, etc.\par
+Alignment classes\par
+Easily realign text to components with text alignment classes.\par
+\par
+Left aligned text.\par
+\par
+Center aligned text.\par
+\par
+Right aligned text.\par
+\par
+Justified text.\par
+\par
+No wrap text.\par
+Copy\par
+<p class="text-left">Left aligned text.</p>\par
+<p class="text-center">Center aligned text.</p>\par
+<p class="text-right">Right aligned text.</p>\par
+<p class="text-justify">Justified text.</p>\par
+<p class="text-nowrap">No wrap text.</p>\par
+Transformation classes\par
+Transform text in components with text capitalization classes.\par
+\par
+lowercased text.\par
+\par
+UPPERCASED TEXT.\par
+\par
+Capitalized Text.\par
+Copy\par
+<p class="text-lowercase">Lowercased text.</p>\par
+<p class="text-uppercase">Uppercased text.</p>\par
+<p class="text-capitalize">Capitalized text.</p>\par
+Abbreviations\par
+Stylized implementation of HTML's <abbr> element for abbreviations and acronyms to show the expanded version on hover. Abbreviations with a title attribute have a light dotted bottom border and a help cursor on hover, providing additional context on hover and to users of assistive technologies.\par
+\par
+Basic abbreviation\par
+An abbreviation of the word attribute is attr.\par
+Copy\par
+<abbr title="attribute">attr</abbr>\par
+Initialism\par
+Add .initialism to an abbreviation for a slightly smaller font-size.\par
+\par
+HTML is the best thing since sliced bread.\par
+Copy\par
+<abbr title="HyperText Markup Language" class="initialism">HTML</abbr>\par
+Addresses\par
+Present contact information for the nearest ancestor or the entire body of work. Preserve formatting by ending all lines with <br>.\par
+\par
+Twitter, Inc.\par
+1355 Market Street, Suite 900\par
+San Francisco, CA 94103\par
+P: (123) 456-7890\par
+Full Name\par
+first.last@example.com\par
+Copy\par
+<address>\par
+  <strong>Twitter, Inc.</strong><br>\par
+  1355 Market Street, Suite 900<br>\par
+  San Francisco, CA 94103<br>\par
+  <abbr title="Phone">P:</abbr> (123) 456-7890\par
+</address>\par
+\par
+<address>\par
+  <strong>Full Name</strong><br>\par
+  <a href="mailto:#">first.last@example.com</a>\par
+</address>\par
+Blockquotes\par
+For quoting blocks of content from another source within your document.\par
+\par
+Default blockquote\par
+Wrap <blockquote> around any HTML as the quote. For straight quotes, we recommend a <p>.\par
+\par
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante.\par
+Copy\par
+<blockquote>\par
+  <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante.</p>\par
+</blockquote>\par
+Blockquote options\par
+Style and content changes for simple variations on a standard <blockquote>.\par
+\par
+Naming a source\par
+\par
+Add a <footer> for identifying the source. Wrap the name of the source work in <cite>.\par
+\par
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante.\par
+\par
+Someone famous in Source Title\par
+Copy\par
+<blockquote>\par
+  <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante.</p>\par
+  <footer>Someone famous in <cite title="Source Title">Source Title</cite></footer>\par
+</blockquote>\par
+Alternate displays\par
+\par
+Add .blockquote-reverse for a blockquote with right-aligned content.\par
+\par
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante.\par
+\par
+Someone famous in Source Title\par
+Copy\par
+<blockquote class="blockquote-reverse">\par
+  ...\par
+</blockquote>\par
+Lists\par
+Unordered\par
+A list of items in which the order does not explicitly matter.\par
+\par
+Lorem ipsum dolor sit amet\par
+Consectetur adipiscing elit\par
+Integer molestie lorem at massa\par
+Facilisis in pretium nisl aliquet\par
+Nulla volutpat aliquam velit\par
+Phasellus iaculis neque\par
+Purus sodales ultricies\par
+Vestibulum laoreet porttitor sem\par
+Ac tristique libero volutpat at\par
+Faucibus porta lacus fringilla vel\par
+Aenean sit amet erat nunc\par
+Eget porttitor lorem\par
+Copy\par
+<ul>\par
+  <li>...</li>\par
+</ul>\par
+Ordered\par
+A list of items in which the order does explicitly matter.\par
+\par
+Lorem ipsum dolor sit amet\par
+Consectetur adipiscing elit\par
+Integer molestie lorem at massa\par
+Facilisis in pretium nisl aliquet\par
+Nulla volutpat aliquam velit\par
+Faucibus porta lacus fringilla vel\par
+Aenean sit amet erat nunc\par
+Eget porttitor lorem\par
+Copy\par
+<ol>\par
+  <li>...</li>\par
+</ol>\par
+Unstyled\par
+Remove the default list-style and left margin on list items (immediate children only). This only applies to immediate children list items, meaning you will need to add the class for any nested lists as well.\par
+\par
+Lorem ipsum dolor sit amet\par
+Consectetur adipiscing elit\par
+Integer molestie lorem at massa\par
+Facilisis in pretium nisl aliquet\par
+Nulla volutpat aliquam velit\par
+Phasellus iaculis neque\par
+Purus sodales ultricies\par
+Vestibulum laoreet porttitor sem\par
+Ac tristique libero volutpat at\par
+Faucibus porta lacus fringilla vel\par
+Aenean sit amet erat nunc\par
+Eget porttitor lorem\par
+Copy\par
+<ul class="list-unstyled">\par
+  <li>...</li>\par
+</ul>\par
+Inline\par
+Place all list items on a single line with display: inline-block; and some light padding.\par
+\par
+Lorem ipsum Phasellus iaculis Nulla volutpat\par
+Copy\par
+<ul class="list-inline">\par
+  <li>...</li>\par
+</ul>\par
+Description\par
+A list of terms with their associated descriptions.\par
+\par
+Description lists\par
+A description list is perfect for defining terms.\par
+Euismod\par
+Vestibulum id ligula porta felis euismod semper eget lacinia odio sem nec elit.\par
+Donec id elit non mi porta gravida at eget metus.\par
+Malesuada porta\par
+Etiam porta sem malesuada magna mollis euismod.\par
+Copy\par
+<dl>\par
+  <dt>...</dt>\par
+  <dd>...</dd>\par
+</dl>\par
+Horizontal description\par
+\par
+Make terms and descriptions in <dl> line up side-by-side. Starts off stacked like default <dl>s, but when the navbar expands, so do these.\par
+\par
+Description lists\par
+A description list is perfect for defining terms.\par
+Euismod\par
+Vestibulum id ligula porta felis euismod semper eget lacinia odio sem nec elit.\par
+Donec id elit non mi porta gravida at eget metus.\par
+Malesuada porta\par
+Etiam porta sem malesuada magna mollis euismod.\par
+Felis euismod semper eget lacinia\par
+Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.\par
+Copy\par
+<dl class="dl-horizontal">\par
+  <dt>...</dt>\par
+  <dd>...</dd>\par
+</dl>\par
+Auto-truncating\par
+Horizontal description lists will truncate terms that are too long to fit in the left column with text-overflow. In narrower viewports, they will change to the default stacked layout.\par
+Code\par
+\par
+Inline\par
+Wrap inline snippets of code with <code>.\par
+\par
+For example, <section> should be wrapped as inline.\par
+Copy\par
+For example, <code>&lt;section&gt;</code> should be wrapped as inline.\par
+User input\par
+Use the <kbd> to indicate input that is typically entered via keyboard.\par
+\par
+To switch directories, type cd followed by the name of the directory.\par
+To edit settings, press ctrl + ,\par
+Copy\par
+To switch directories, type <kbd>cd</kbd> followed by the name of the directory.<br>\par
+To edit settings, press <kbd><kbd>ctrl</kbd> + <kbd>,</kbd></kbd>\par
+Basic block\par
+Use <pre> for multiple lines of code. Be sure to escape any angle brackets in the code for proper rendering.\par
+\par
+<p>Sample text here...</p>\par
+Copy\par
+<pre>&lt;p&gt;Sample text here...&lt;/p&gt;</pre>\par
+You may optionally add the .pre-scrollable class, which will set a max-height of 350px and provide a y-axis scrollbar.\par
+\par
+Variables\par
+For indicating variables use the <var> tag.\par
+\par
+y = mx + b\par
+Copy\par
+<var>y</var> = <var>m</var><var>x</var> + <var>b</var>\par
+Sample output\par
+For indicating blocks sample output from a program use the <samp> tag.\par
+\par
+This text is meant to be treated as sample output from a computer program.\par
+Copy\par
+<samp>This text is meant to be treated as sample output from a computer program.</samp>\par
+Tables\par
+\par
+Basic example\par
+For basic styling\f2\emdash light padding and only horizontal dividers\emdash add the base class .table to any <table>. It may seem super redundant, but given the widespread use of tables for other plugins like calendars and date pickers, we've opted to isolate our custom table styles.\par
+\par
+Optional table caption.\par
+#\tab First Name\tab Last Name\tab Username\par
+1\tab Mark\tab Otto\tab @mdo\par
+2\tab Jacob\tab Thornton\tab @fat\par
+3\tab Larry\tab the Bird\tab @twitter\par
+Copy\par
+<table class="table">\par
+  ...\par
+</table>\par
+Striped rows\par
+Use .table-striped to add zebra-striping to any table row within the <tbody>.\par
+\par
+Cross-browser compatibility\par
+Striped tables are styled via the :nth-child CSS selector, which is not available in Internet Explorer 8.\par
+#\tab First Name\tab Last Name\tab Username\par
+1\tab Mark\tab Otto\tab @mdo\par
+2\tab Jacob\tab Thornton\tab @fat\par
+3\tab Larry\tab the Bird\tab @twitter\par
+Copy\par
+<table class="table table-striped">\par
+  ...\par
+</table>\par
+Bordered table\par
+Add .table-bordered for borders on all sides of the table and cells.\par
+\par
+#\tab First Name\tab Last Name\tab Username\par
+1\tab Mark\tab Otto\tab @mdo\par
+2\tab Jacob\tab Thornton\tab @fat\par
+3\tab Larry\tab the Bird\tab @twitter\par
+Copy\par
+<table class="table table-bordered">\par
+  ...\par
+</table>\par
+Hover rows\par
+Add .table-hover to enable a hover state on table rows within a <tbody>.\par
+\par
+#\tab First Name\tab Last Name\tab Username\par
+1\tab Mark\tab Otto\tab @mdo\par
+2\tab Jacob\tab Thornton\tab @fat\par
+3\tab Larry\tab the Bird\tab @twitter\par
+Copy\par
+<table class="table table-hover">\par
+  ...\par
+</table>\par
+Condensed table\par
+Add .table-condensed to make tables more compact by cutting cell padding in half.\par
+\par
+#\tab First Name\tab Last Name\tab Username\par
+1\tab Mark\tab Otto\tab @mdo\par
+2\tab Jacob\tab Thornton\tab @fat\par
+3\tab Larry the Bird\tab @twitter\par
+Copy\par
+<table class="table table-condensed">\par
+  ...\par
+</table>\par
+Contextual classes\par
+Use contextual classes to color table rows or individual cells.\par
+\par
+Class\tab Description\par
+.active\tab Applies the hover color to a particular row or cell\par
+.success\tab Indicates a successful or positive action\par
+.info\tab Indicates a neutral informative change or action\par
+.warning\tab Indicates a warning that might need attention\par
+.danger\tab Indicates a dangerous or potentially negative action\par
+#\tab Column heading\tab Column heading\tab Column heading\par
+1\tab Column content\tab Column content\tab Column content\par
+2\tab Column content\tab Column content\tab Column content\par
+3\tab Column content\tab Column content\tab Column content\par
+4\tab Column content\tab Column content\tab Column content\par
+5\tab Column content\tab Column content\tab Column content\par
+6\tab Column content\tab Column content\tab Column content\par
+7\tab Column content\tab Column content\tab Column content\par
+8\tab Column content\tab Column content\tab Column content\par
+9\tab Column content\tab Column content\tab Column content\par
+Copy\par
+<!-- On rows -->\par
+<tr class="active">...</tr>\par
+<tr class="success">...</tr>\par
+<tr class="warning">...</tr>\par
+<tr class="danger">...</tr>\par
+<tr class="info">...</tr>\par
+\par
+<!-- On cells (`td` or `th`) -->\par
+<tr>\par
+  <td class="active">...</td>\par
+  <td class="success">...</td>\par
+  <td class="warning">...</td>\par
+  <td class="danger">...</td>\par
+  <td class="info">...</td>\par
+</tr>\par
+Conveying meaning to assistive technologies\par
+Using color to add meaning to a table row or individual cell only provides a visual indication, which will not be conveyed to users of assistive technologies \endash  such as screen readers. Ensure that information denoted by the color is either obvious from the content itself (the visible text in the relevant table row/cell), or is included through alternative means, such as additional text hidden with the .sr-only class.\par
+Responsive tables\par
+Create responsive tables by wrapping any .table in .table-responsive to make them scroll horizontally on small devices (under 768px). When viewing on anything larger than 768px wide, you will not see any difference in these tables.\par
+\par
+Vertical clipping/truncation\par
+Responsive tables make use of overflow-y: hidden, which clips off any content that goes beyond the bottom or top edges of the table. In particular, this can clip off dropdown menus and other third-party widgets.\par
+Firefox and fieldsets\par
+Firefox has some awkward fieldset styling involving width that interferes with the responsive table. This cannot be overridden without a Firefox-specific hack that we don't provide in Bootstrap:\par
+\par
+Copy\par
+@-moz-document url-prefix() \{\par
+  fieldset \{ display: table-cell; \}\par
+\}\par
+For more information, read this Stack Overflow answer.\par
+#\tab Table heading\tab Table heading\tab Table heading\tab Table heading\tab Table heading\tab Table heading\par
+1\tab Table cell\tab Table cell\tab Table cell\tab Table cell\tab Table cell\tab Table cell\par
+2\tab Table cell\tab Table cell\tab Table cell\tab Table cell\tab Table cell\tab Table cell\par
+3\tab Table cell\tab Table cell\tab Table cell\tab Table cell\tab Table cell\tab Table cell\par
+#\tab Table heading\tab Table heading\tab Table heading\tab Table heading\tab Table heading\tab Table heading\par
+1\tab Table cell\tab Table cell\tab Table cell\tab Table cell\tab Table cell\tab Table cell\par
+2\tab Table cell\tab Table cell\tab Table cell\tab Table cell\tab Table cell\tab Table cell\par
+3\tab Table cell\tab Table cell\tab Table cell\tab Table cell\tab Table cell\tab Table cell\par
+Copy\par
+<div class="table-responsive">\par
+  <table class="table">\par
+    ...\par
+  </table>\par
+</div>\par
+Forms\par
+\par
+Basic example\par
+Individual form controls automatically receive some global styling. All textual <input>, <textarea>, and <select> elements with .form-control are set to width: 100%; by default. Wrap labels and controls in .form-group for optimum spacing.\par
+\par
+Email address \par
+Email\par
+Password \par
+Password\par
+File input Choose File\par
+Example block-level help text here.\par
+\par
+Check me out\par
+Submit\par
+Copy\par
+<form>\par
+  <div class="form-group">\par
+    <label for="exampleInputEmail1">Email address</label>\par
+    <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Email">\par
+  </div>\par
+  <div class="form-group">\par
+    <label for="exampleInputPassword1">Password</label>\par
+    <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">\par
+  </div>\par
+  <div class="form-group">\par
+    <label for="exampleInputFile">File input</label>\par
+    <input type="file" id="exampleInputFile">\par
+    <p class="help-block">Example block-level help text here.</p>\par
+  </div>\par
+  <div class="checkbox">\par
+    <label>\par
+      <input type="checkbox"> Check me out\par
+    </label>\par
+  </div>\par
+  <button type="submit" class="btn btn-default">Submit</button>\par
+</form>\par
+Don't mix form groups with input groups\par
+Do not mix form groups directly with input groups. Instead, nest the input group inside of the form group.\par
+Inline form\par
+Add .form-inline to your form (which doesn't have to be a <form>) for left-aligned and inline-block controls. This only applies to forms within viewports that are at least 768px wide.\par
+\par
+May require custom widths\par
+Inputs and selects have width: 100%; applied by default in Bootstrap. Within inline forms, we reset that to width: auto; so multiple controls can reside on the same line. Depending on your layout, additional custom widths may be required.\par
+Always add labels\par
+Screen readers will have trouble with your forms if you don't include a label for every input. For these inline forms, you can hide the labels using the .sr-only class. There are further alternative methods of providing a label for assistive technologies, such as the aria-label, aria-labelledby or title attribute. If none of these is present, screen readers may resort to using the placeholder attribute, if present, but note that use of placeholder as a replacement for other labelling methods is not advised.\par
+Name \par
+Jane Doe\par
+ Email \par
+jane.doe@example.com\par
+ Send invitation\par
+Copy\par
+<form class="form-inline">\par
+  <div class="form-group">\par
+    <label for="exampleInputName2">Name</label>\par
+    <input type="text" class="form-control" id="exampleInputName2" placeholder="Jane Doe">\par
+  </div>\par
+  <div class="form-group">\par
+    <label for="exampleInputEmail2">Email</label>\par
+    <input type="email" class="form-control" id="exampleInputEmail2" placeholder="jane.doe@example.com">\par
+  </div>\par
+  <button type="submit" class="btn btn-default">Send invitation</button>\par
+</form>\par
+Email address\par
+Email\par
+ Password\par
+Password\par
+  Remember me  Sign in\par
+Copy\par
+<form class="form-inline">\par
+  <div class="form-group">\par
+    <label class="sr-only" for="exampleInputEmail3">Email address</label>\par
+    <input type="email" class="form-control" id="exampleInputEmail3" placeholder="Email">\par
+  </div>\par
+  <div class="form-group">\par
+    <label class="sr-only" for="exampleInputPassword3">Password</label>\par
+    <input type="password" class="form-control" id="exampleInputPassword3" placeholder="Password">\par
+  </div>\par
+  <div class="checkbox">\par
+    <label>\par
+      <input type="checkbox"> Remember me\par
+    </label>\par
+  </div>\par
+  <button type="submit" class="btn btn-default">Sign in</button>\par
+</form>\par
+Amount (in dollars) $\par
+Amount\par
+.00  Transfer cash\par
+Copy\par
+<form class="form-inline">\par
+  <div class="form-group">\par
+    <label class="sr-only" for="exampleInputAmount">Amount (in dollars)</label>\par
+    <div class="input-group">\par
+      <div class="input-group-addon">$</div>\par
+      <input type="text" class="form-control" id="exampleInputAmount" placeholder="Amount">\par
+      <div class="input-group-addon">.00</div>\par
+    </div>\par
+  </div>\par
+  <button type="submit" class="btn btn-primary">Transfer cash</button>\par
+</form>\par
+Horizontal form\par
+Use Bootstrap's predefined grid classes to align labels and groups of form controls in a horizontal layout by adding .form-horizontal to the form (which doesn't have to be a <form>). Doing so changes .form-groups to behave as grid rows, so no need for .row.\par
+\par
+Email\par
+Email\par
+Password\par
+Password\par
+Remember me\par
+Sign in\par
+Copy\par
+<form class="form-horizontal">\par
+  <div class="form-group">\par
+    <label for="inputEmail3" class="col-sm-2 control-label">Email</label>\par
+    <div class="col-sm-10">\par
+      <input type="email" class="form-control" id="inputEmail3" placeholder="Email">\par
+    </div>\par
+  </div>\par
+  <div class="form-group">\par
+    <label for="inputPassword3" class="col-sm-2 control-label">Password</label>\par
+    <div class="col-sm-10">\par
+      <input type="password" class="form-control" id="inputPassword3" placeholder="Password">\par
+    </div>\par
+  </div>\par
+  <div class="form-group">\par
+    <div class="col-sm-offset-2 col-sm-10">\par
+      <div class="checkbox">\par
+        <label>\par
+          <input type="checkbox"> Remember me\par
+        </label>\par
+      </div>\par
+    </div>\par
+  </div>\par
+  <div class="form-group">\par
+    <div class="col-sm-offset-2 col-sm-10">\par
+      <button type="submit" class="btn btn-default">Sign in</button>\par
+    </div>\par
+  </div>\par
+</form>\par
+Supported controls\par
+Examples of standard form controls supported in an example form layout.\par
+\par
+Inputs\par
+Most common form control, text-based input fields. Includes support for all HTML5 types: text, password, datetime, datetime-local, date, month, time, week, number, email, url, search, tel, and color.\par
+\par
+Type declaration required\par
+Inputs will only be fully styled if their type is properly declared.\par
+\par
+Text input\par
+Copy\par
+<input type="text" class="form-control" placeholder="Text input">\par
+Input groups\par
+To add integrated text or buttons before and/or after any text-based <input>, check out the input group component.\par
+Textarea\par
+Form control which supports multiple lines of text. Change rows attribute as necessary.\par
+\par
+\par
+Textarea\par
+Copy\par
+<textarea class="form-control" rows="3"></textarea>\par
+Checkboxes and radios\par
+Checkboxes are for selecting one or several options in a list, while radios are for selecting one option from many.\par
+\par
+Disabled checkboxes and radios are supported, but to provide a "not-allowed" cursor on hover of the parent <label>, you'll need to add the .disabled class to the parent .radio, .radio-inline, .checkbox, or .checkbox-inline.\par
+\par
+Default (stacked)\par
+\par
+Option one is this and that\emdash be sure to include why it's great\par
+Option two is disabled\par
+\par
+Option one is this and that\emdash be sure to include why it's great\par
+Option two can be something else and selecting it will deselect option one\par
+Option three is disabled\par
+Copy\par
+<div class="checkbox">\par
+  <label>\par
+    <input type="checkbox" value="">\par
+    Option one is this and that&mdash;be sure to include why it's great\par
+  </label>\par
+</div>\par
+<div class="checkbox disabled">\par
+  <label>\par
+    <input type="checkbox" value="" disabled>\par
+    Option two is disabled\par
+  </label>\par
+</div>\par
+\par
+<div class="radio">\par
+  <label>\par
+    <input type="radio" name="optionsRadios" id="optionsRadios1" value="option1" checked>\par
+    Option one is this and that&mdash;be sure to include why it's great\par
+  </label>\par
+</div>\par
+<div class="radio">\par
+  <label>\par
+    <input type="radio" name="optionsRadios" id="optionsRadios2" value="option2">\par
+    Option two can be something else and selecting it will deselect option one\par
+  </label>\par
+</div>\par
+<div class="radio disabled">\par
+  <label>\par
+    <input type="radio" name="optionsRadios" id="optionsRadios3" value="option3" disabled>\par
+    Option three is disabled\par
+  </label>\par
+</div>\par
+Inline checkboxes and radios\par
+\par
+Use the .checkbox-inline or .radio-inline classes on a series of checkboxes or radios for controls that appear on the same line.\par
+\par
+1  2  3\par
+\par
+1  2  3\par
+Copy\par
+<label class="checkbox-inline">\par
+  <input type="checkbox" id="inlineCheckbox1" value="option1"> 1\par
+</label>\par
+<label class="checkbox-inline">\par
+  <input type="checkbox" id="inlineCheckbox2" value="option2"> 2\par
+</label>\par
+<label class="checkbox-inline">\par
+  <input type="checkbox" id="inlineCheckbox3" value="option3"> 3\par
+</label>\par
+\par
+<label class="radio-inline">\par
+  <input type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1"> 1\par
+</label>\par
+<label class="radio-inline">\par
+  <input type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2"> 2\par
+</label>\par
+<label class="radio-inline">\par
+  <input type="radio" name="inlineRadioOptions" id="inlineRadio3" value="option3"> 3\par
+</label>\par
+Checkboxes and radios without label text\par
+\par
+Should you have no text within the <label>, the input is positioned as you'd expect. Currently only works on non-inline checkboxes and radios. Remember to still provide some form of label for assistive technologies (for instance, using aria-label).\par
+\par
+\par
+\par
+Copy\par
+<div class="checkbox">\par
+  <label>\par
+    <input type="checkbox" id="blankCheckbox" value="option1" aria-label="...">\par
+  </label>\par
+</div>\par
+<div class="radio">\par
+  <label>\par
+    <input type="radio" name="blankRadio" id="blankRadio1" value="option1" aria-label="...">\par
+  </label>\par
+</div>\par
+Selects\par
+Note that many native select menus\emdash namely in Safari and Chrome\emdash have rounded corners that cannot be modified via border-radius properties.\par
+\par
+\par
+Copy\par
+<select class="form-control">\par
+  <option>1</option>\par
+  <option>2</option>\par
+  <option>3</option>\par
+  <option>4</option>\par
+  <option>5</option>\par
+</select>\par
+For <select> controls with the multiple attribute, multiple options are shown by default.\par
+\par
+12345\par
+Copy\par
+<select multiple class="form-control">\par
+  <option>1</option>\par
+  <option>2</option>\par
+  <option>3</option>\par
+  <option>4</option>\par
+  <option>5</option>\par
+</select>\par
+Static control\par
+When you need to place plain text next to a form label within a form, use the .form-control-static class on a <p>.\par
+\par
+Email\par
+email@example.com\par
+Password\par
+Password\par
+Copy\par
+<form class="form-horizontal">\par
+  <div class="form-group">\par
+    <label class="col-sm-2 control-label">Email</label>\par
+    <div class="col-sm-10">\par
+      <p class="form-control-static">email@example.com</p>\par
+    </div>\par
+  </div>\par
+  <div class="form-group">\par
+    <label for="inputPassword" class="col-sm-2 control-label">Password</label>\par
+    <div class="col-sm-10">\par
+      <input type="password" class="form-control" id="inputPassword" placeholder="Password">\par
+    </div>\par
+  </div>\par
+</form>\par
+Emailemail@example.com  Password\par
+Password\par
+ Confirm identity\par
+Copy\par
+<form class="form-inline">\par
+  <div class="form-group">\par
+    <label class="sr-only">Email</label>\par
+    <p class="form-control-static">email@example.com</p>\par
+  </div>\par
+  <div class="form-group">\par
+    <label for="inputPassword2" class="sr-only">Password</label>\par
+    <input type="password" class="form-control" id="inputPassword2" placeholder="Password">\par
+  </div>\par
+  <button type="submit" class="btn btn-default">Confirm identity</button>\par
+</form>\par
+Focus state\par
+We remove the default outline styles on some form controls and apply a box-shadow in its place for :focus.\par
+\par
+\par
+Demonstrative focus state\par
+Demo :focus state\par
+The above example input uses custom styles in our documentation to demonstrate the :focus state on a .form-control.\par
+Disabled state\par
+Add the disabled boolean attribute on an input to prevent user interactions. Disabled inputs appear lighter and add a not-allowed cursor.\par
+\par
+\par
+Disabled input here\'85\par
+Copy\par
+<input class="form-control" id="disabledInput" type="text" placeholder="Disabled input here..." disabled>\par
+Disabled fieldsets\par
+Add the disabled attribute to a <fieldset> to disable all the controls within the <fieldset> at once.\par
+\par
+Caveat about link functionality of <a>\par
+By default, browsers will treat all native form controls (<input>, <select> and <button> elements) inside a <fieldset disabled> as disabled, preventing both keyboard and mouse interactions on them. However, if your form also includes <a ... class="btn btn-*"> elements, these will only be given a style of pointer-events: none. As noted in the section about disabled state for buttons (and specifically in the sub-section for anchor elements), this CSS property is not yet standardized and isn't fully supported in Opera 18 and below, or in Internet Explorer 11, and won't prevent keyboard users from being able to focus or activate these links. So to be safe, use custom JavaScript to disable such links.\par
+Cross-browser compatibility\par
+While Bootstrap will apply these styles in all browsers, Internet Explorer 11 and below don't fully support the disabled attribute on a <fieldset>. Use custom JavaScript to disable the fieldset in these browsers.\par
+\par
+Disabled input \par
+Disabled input\par
+Disabled select menu \par
+Can't check this\par
+Submit\par
+Copy\par
+<form>\par
+  <fieldset disabled>\par
+    <div class="form-group">\par
+      <label for="disabledTextInput">Disabled input</label>\par
+      <input type="text" id="disabledTextInput" class="form-control" placeholder="Disabled input">\par
+    </div>\par
+    <div class="form-group">\par
+      <label for="disabledSelect">Disabled select menu</label>\par
+      <select id="disabledSelect" class="form-control">\par
+        <option>Disabled select</option>\par
+      </select>\par
+    </div>\par
+    <div class="checkbox">\par
+      <label>\par
+        <input type="checkbox"> Can't check this\par
+      </label>\par
+    </div>\par
+    <button type="submit" class="btn btn-primary">Submit</button>\par
+  </fieldset>\par
+</form>\par
+Readonly state\par
+Add the readonly boolean attribute on an input to prevent modification of the input's value. Read-only inputs appear lighter (just like disabled inputs), but retain the standard cursor.\par
+\par
+\par
+Readonly input here\'85\par
+Copy\par
+<input class="form-control" type="text" placeholder="Readonly input here\'85" readonly>\par
+Help text\par
+Block level help text for form controls.\par
+\par
+Associating help text with form controls\par
+Help text should be explicitly associated with the form control it relates to using the aria-describedby attribute. This will ensure that assistive technologies \endash  such as screen readers \endash  will announce this help text when the user focuses or enters the control.\par
+Input with help text \par
+A block of help text that breaks onto a new line and may extend beyond one line.\par
+Copy\par
+<label class="sr-only" for="inputHelpBlock">Input with help text</label>\par
+<input type="text" id="inputHelpBlock" class="form-control" aria-describedby="helpBlock">\par
+...\par
+<span id="helpBlock" class="help-block">A block of help text that breaks onto a new line and may extend beyond one line.</span>\par
+Validation states\par
+Bootstrap includes validation styles for error, warning, and success states on form controls. To use, add .has-warning, .has-error, or .has-success to the parent element. Any .control-label, .form-control, and .help-block within that element will receive the validation styles.\par
+\par
+Conveying validation state to assistive technologies and colorblind users\par
+Using these validation styles to denote the state of a form control only provides a visual, color-based indication, which will not be conveyed to users of assistive technologies - such as screen readers - or to colorblind users.\par
+\par
+Ensure that an alternative indication of state is also provided. For instance, you can include a hint about state in the form control's <label> text itself (as is the case in the following code example), include a Glyphicon (with appropriate alternative text using the .sr-only class - see the Glyphicon examples), or by providing an additional help text block. Specifically for assistive technologies, invalid form controls can also be assigned an aria-invalid="true" attribute.\par
+Input with success \par
+A block of help text that breaks onto a new line and may extend beyond one line.\par
+Input with warning \par
+Input with error \par
+Checkbox with success\par
+Checkbox with warning\par
+Checkbox with error\par
+Copy\par
+<div class="form-group has-success">\par
+  <label class="control-label" for="inputSuccess1">Input with success</label>\par
+  <input type="text" class="form-control" id="inputSuccess1" aria-describedby="helpBlock2">\par
+  <span id="helpBlock2" class="help-block">A block of help text that breaks onto a new line and may extend beyond one line.</span>\par
+</div>\par
+<div class="form-group has-warning">\par
+  <label class="control-label" for="inputWarning1">Input with warning</label>\par
+  <input type="text" class="form-control" id="inputWarning1">\par
+</div>\par
+<div class="form-group has-error">\par
+  <label class="control-label" for="inputError1">Input with error</label>\par
+  <input type="text" class="form-control" id="inputError1">\par
+</div>\par
+<div class="has-success">\par
+  <div class="checkbox">\par
+    <label>\par
+      <input type="checkbox" id="checkboxSuccess" value="option1">\par
+      Checkbox with success\par
+    </label>\par
+  </div>\par
+</div>\par
+<div class="has-warning">\par
+  <div class="checkbox">\par
+    <label>\par
+      <input type="checkbox" id="checkboxWarning" value="option1">\par
+      Checkbox with warning\par
+    </label>\par
+  </div>\par
+</div>\par
+<div class="has-error">\par
+  <div class="checkbox">\par
+    <label>\par
+      <input type="checkbox" id="checkboxError" value="option1">\par
+      Checkbox with error\par
+    </label>\par
+  </div>\par
+</div>\par
+With optional icons\par
+You can also add optional feedback icons with the addition of .has-feedback and the right icon.\par
+\par
+Feedback icons only work with textual <input class="form-control"> elements.\par
+\par
+Icons, labels, and input groups\par
+Manual positioning of feedback icons is required for inputs without a label and for input groups with an add-on on the right. You are strongly encouraged to provide labels for all inputs for accessibility reasons. If you wish to prevent labels from being displayed, hide them with the .sr-only class. If you must do without labels, adjust the top value of the feedback icon. For input groups, adjust the right value to an appropriate pixel value depending on the width of your addon.\par
+Conveying the icon's meaning to assistive technologies\par
+To ensure that assistive technologies \endash  such as screen readers \endash  correctly convey the meaning of an icon, additional hidden text should be included with the .sr-only class and explicitly associated with the form control it relates to using aria-describedby. Alternatively, ensure that the meaning (for instance, the fact that there is a warning for a particular text entry field) is conveyed in some other form, such as changing the text of the actual <label> associated with the form control.\par
+\par
+Although the following examples already mention the validation state of their respective form controls in the <label> text itself, the above technique (using .sr-only text and aria-describedby) has been included for illustrative purposes.\par
+Input with success \par
+(success)\par
+Input with warning \par
+(warning)\par
+Input with error \par
+(error)\par
+Input group with success\par
+@\par
+(success)\par
+Copy\par
+<div class="form-group has-success has-feedback">\par
+  <label class="control-label" for="inputSuccess2">Input with success</label>\par
+  <input type="text" class="form-control" id="inputSuccess2" aria-describedby="inputSuccess2Status">\par
+  <span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true"></span>\par
+  <span id="inputSuccess2Status" class="sr-only">(success)</span>\par
+</div>\par
+<div class="form-group has-warning has-feedback">\par
+  <label class="control-label" for="inputWarning2">Input with warning</label>\par
+  <input type="text" class="form-control" id="inputWarning2" aria-describedby="inputWarning2Status">\par
+  <span class="glyphicon glyphicon-warning-sign form-control-feedback" aria-hidden="true"></span>\par
+  <span id="inputWarning2Status" class="sr-only">(warning)</span>\par
+</div>\par
+<div class="form-group has-error has-feedback">\par
+  <label class="control-label" for="inputError2">Input with error</label>\par
+  <input type="text" class="form-control" id="inputError2" aria-describedby="inputError2Status">\par
+  <span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>\par
+  <span id="inputError2Status" class="sr-only">(error)</span>\par
+</div>\par
+<div class="form-group has-success has-feedback">\par
+  <label class="control-label" for="inputGroupSuccess1">Input group with success</label>\par
+  <div class="input-group">\par
+    <span class="input-group-addon">@</span>\par
+    <input type="text" class="form-control" id="inputGroupSuccess1" aria-describedby="inputGroupSuccess1Status">\par
+  </div>\par
+  <span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true"></span>\par
+  <span id="inputGroupSuccess1Status" class="sr-only">(success)</span>\par
+</div>\par
+Optional icons in horizontal and inline forms\par
+\par
+Input with success\par
+(success)\par
+Input group with success\par
+@\par
+(success)\par
+Copy\par
+<form class="form-horizontal">\par
+  <div class="form-group has-success has-feedback">\par
+    <label class="control-label col-sm-3" for="inputSuccess3">Input with success</label>\par
+    <div class="col-sm-9">\par
+      <input type="text" class="form-control" id="inputSuccess3" aria-describedby="inputSuccess3Status">\par
+      <span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true"></span>\par
+      <span id="inputSuccess3Status" class="sr-only">(success)</span>\par
+    </div>\par
+  </div>\par
+  <div class="form-group has-success has-feedback">\par
+    <label class="control-label col-sm-3" for="inputGroupSuccess2">Input group with success</label>\par
+    <div class="col-sm-9">\par
+      <div class="input-group">\par
+        <span class="input-group-addon">@</span>\par
+        <input type="text" class="form-control" id="inputGroupSuccess2" aria-describedby="inputGroupSuccess2Status">\par
+      </div>\par
+      <span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true"></span>\par
+      <span id="inputGroupSuccess2Status" class="sr-only">(success)</span>\par
+    </div>\par
+  </div>\par
+</form>\par
+Input with success \par
+(success)\par
+\par
+Input group with success  @\par
+(success)\par
+Copy\par
+<form class="form-inline">\par
+  <div class="form-group has-success has-feedback">\par
+    <label class="control-label" for="inputSuccess4">Input with success</label>\par
+    <input type="text" class="form-control" id="inputSuccess4" aria-describedby="inputSuccess4Status">\par
+    <span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true"></span>\par
+    <span id="inputSuccess4Status" class="sr-only">(success)</span>\par
+  </div>\par
+</form>\par
+<form class="form-inline">\par
+  <div class="form-group has-success has-feedback">\par
+    <label class="control-label" for="inputGroupSuccess3">Input group with success</label>\par
+    <div class="input-group">\par
+      <span class="input-group-addon">@</span>\par
+      <input type="text" class="form-control" id="inputGroupSuccess3" aria-describedby="inputGroupSuccess3Status">\par
+    </div>\par
+    <span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true"></span>\par
+    <span id="inputGroupSuccess3Status" class="sr-only">(success)</span>\par
+  </div>\par
+</form>\par
+Optional icons with hidden .sr-only labels\par
+\par
+If you use the .sr-only class to hide a form control's <label> (rather than using other labelling options, such as the aria-label attribute), Bootstrap will automatically adjust the position of the icon once it's been added.\par
+\par
+Hidden label\par
+(success)\par
+Input group with success\par
+@\par
+(success)\par
+Copy\par
+<div class="form-group has-success has-feedback">\par
+  <label class="control-label sr-only" for="inputSuccess5">Hidden label</label>\par
+  <input type="text" class="form-control" id="inputSuccess5" aria-describedby="inputSuccess5Status">\par
+  <span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true"></span>\par
+  <span id="inputSuccess5Status" class="sr-only">(success)</span>\par
+</div>\par
+<div class="form-group has-success has-feedback">\par
+  <label class="control-label sr-only" for="inputGroupSuccess4">Input group with success</label>\par
+  <div class="input-group">\par
+    <span class="input-group-addon">@</span>\par
+    <input type="text" class="form-control" id="inputGroupSuccess4" aria-describedby="inputGroupSuccess4Status">\par
+  </div>\par
+  <span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true"></span>\par
+  <span id="inputGroupSuccess4Status" class="sr-only">(success)</span>\par
+</div>\par
+Control sizing\par
+Set heights using classes like .input-lg, and set widths using grid column classes like .col-lg-*.\par
+\par
+Height sizing\par
+Create taller or shorter form controls that match button sizes.\par
+\par
+\par
+.input-lg\par
+\par
+Default input\par
+\par
+.input-sm\par
+\par
+Copy\par
+<input class="form-control input-lg" type="text" placeholder=".input-lg">\par
+<input class="form-control" type="text" placeholder="Default input">\par
+<input class="form-control input-sm" type="text" placeholder=".input-sm">\par
+\par
+<select class="form-control input-lg">...</select>\par
+<select class="form-control">...</select>\par
+<select class="form-control input-sm">...</select>\par
+Horizontal form group sizes\par
+Quickly size labels and form controls within .form-horizontal by adding .form-group-lg or .form-group-sm.\par
+\par
+Large label\par
+Large input\par
+Small label\par
+Small input\par
+Copy\par
+<form class="form-horizontal">\par
+  <div class="form-group form-group-lg">\par
+    <label class="col-sm-2 control-label" for="formGroupInputLarge">Large label</label>\par
+    <div class="col-sm-10">\par
+      <input class="form-control" type="text" id="formGroupInputLarge" placeholder="Large input">\par
+    </div>\par
+  </div>\par
+  <div class="form-group form-group-sm">\par
+    <label class="col-sm-2 control-label" for="formGroupInputSmall">Small label</label>\par
+    <div class="col-sm-10">\par
+      <input class="form-control" type="text" id="formGroupInputSmall" placeholder="Small input">\par
+    </div>\par
+  </div>\par
+</form>\par
+Column sizing\par
+Wrap inputs in grid columns, or any custom parent element, to easily enforce desired widths.\par
+\par
+\par
+.col-xs-2\par
+\par
+.col-xs-3\par
+\par
+.col-xs-4\par
+Copy\par
+<div class="row">\par
+  <div class="col-xs-2">\par
+    <input type="text" class="form-control" placeholder=".col-xs-2">\par
+  </div>\par
+  <div class="col-xs-3">\par
+    <input type="text" class="form-control" placeholder=".col-xs-3">\par
+  </div>\par
+  <div class="col-xs-4">\par
+    <input type="text" class="form-control" placeholder=".col-xs-4">\par
+  </div>\par
+</div>\par
+Buttons\par
+\par
+Button tags\par
+Use the button classes on an <a>, <button>, or <input> element.\par
+\par
+Link Button Input Submit\par
+Copy\par
+<a class="btn btn-default" href="#" role="button">Link</a>\par
+<button class="btn btn-default" type="submit">Button</button>\par
+<input class="btn btn-default" type="button" value="Input">\par
+<input class="btn btn-default" type="submit" value="Submit">\par
+Context-specific usage\par
+While button classes can be used on <a> and <button> elements, only <button> elements are supported within our nav and navbar components.\par
+Links acting as buttons\par
+If the <a> elements are used to act as buttons \endash  triggering in-page functionality, rather than navigating to another document or section within the current page \endash  they should also be given an appropriate role="button".\par
+Cross-browser rendering\par
+As a best practice, we highly recommend using the <button> element whenever possible to ensure matching cross-browser rendering.\par
+\par
+Among other things, there's a bug in Firefox <30 that prevents us from setting the line-height of <input>-based buttons, causing them to not exactly match the height of other buttons on Firefox.\par
+Options\par
+Use any of the available button classes to quickly create a styled button.\par
+\par
+Default Primary Success Info Warning Danger Link\par
+Copy\par
+<!-- Standard button -->\par
+<button type="button" class="btn btn-default">Default</button>\par
+\par
+<!-- Provides extra visual weight and identifies the primary action in a set of buttons -->\par
+<button type="button" class="btn btn-primary">Primary</button>\par
+\par
+<!-- Indicates a successful or positive action -->\par
+<button type="button" class="btn btn-success">Success</button>\par
+\par
+<!-- Contextual button for informational alert messages -->\par
+<button type="button" class="btn btn-info">Info</button>\par
+\par
+<!-- Indicates caution should be taken with this action -->\par
+<button type="button" class="btn btn-warning">Warning</button>\par
+\par
+<!-- Indicates a dangerous or potentially negative action -->\par
+<button type="button" class="btn btn-danger">Danger</button>\par
+\par
+<!-- Deemphasize a button by making it look like a link while maintaining button behavior -->\par
+<button type="button" class="btn btn-link">Link</button>\par
+Conveying meaning to assistive technologies\par
+Using color to add meaning to a button only provides a visual indication, which will not be conveyed to users of assistive technologies \endash  such as screen readers. Ensure that information denoted by the color is either obvious from the content itself (the visible text of the button), or is included through alternative means, such as additional text hidden with the .sr-only class.\par
+Sizes\par
+Fancy larger or smaller buttons? Add .btn-lg, .btn-sm, or .btn-xs for additional sizes.\par
+\par
+Large button Large button\par
+\par
+Default button Default button\par
+\par
+Small button Small button\par
+\par
+Extra small button Extra small button\par
+Copy\par
+<p>\par
+  <button type="button" class="btn btn-primary btn-lg">Large button</button>\par
+  <button type="button" class="btn btn-default btn-lg">Large button</button>\par
+</p>\par
+<p>\par
+  <button type="button" class="btn btn-primary">Default button</button>\par
+  <button type="button" class="btn btn-default">Default button</button>\par
+</p>\par
+<p>\par
+  <button type="button" class="btn btn-primary btn-sm">Small button</button>\par
+  <button type="button" class="btn btn-default btn-sm">Small button</button>\par
+</p>\par
+<p>\par
+  <button type="button" class="btn btn-primary btn-xs">Extra small button</button>\par
+  <button type="button" class="btn btn-default btn-xs">Extra small button</button>\par
+</p>\par
+Create block level buttons\emdash those that span the full width of a parent\emdash  by adding .btn-block.\par
+\par
+Block level button\par
+Block level button\par
+Copy\par
+<button type="button" class="btn btn-primary btn-lg btn-block">Block level button</button>\par
+<button type="button" class="btn btn-default btn-lg btn-block">Block level button</button>\par
+Active state\par
+Buttons will appear pressed (with a darker background, darker border, and inset shadow) when active. For <button> elements, this is done via :active. For <a> elements, it's done with .active. However, you may use .active on <button>s (and include the aria-pressed="true" attribute) should you need to replicate the active state programmatically.\par
+\par
+Button element\par
+No need to add :active as it's a pseudo-class, but if you need to force the same appearance, go ahead and add .active.\par
+\par
+Primary button Button\par
+\par
+Copy\par
+<button type="button" class="btn btn-primary btn-lg active">Primary button</button>\par
+<button type="button" class="btn btn-default btn-lg active">Button</button>\par
+Anchor element\par
+Add the .active class to <a> buttons.\par
+\par
+Primary link Link\par
+\par
+Copy\par
+<a href="#" class="btn btn-primary btn-lg active" role="button">Primary link</a>\par
+<a href="#" class="btn btn-default btn-lg active" role="button">Link</a>\par
+Disabled state\par
+Make buttons look unclickable by fading them back with opacity.\par
+\par
+Button element\par
+Add the disabled attribute to <button> buttons.\par
+\par
+Primary button Button\par
+\par
+Copy\par
+<button type="button" class="btn btn-lg btn-primary" disabled="disabled">Primary button</button>\par
+<button type="button" class="btn btn-default btn-lg" disabled="disabled">Button</button>\par
+Cross-browser compatibility\par
+If you add the disabled attribute to a <button>, Internet Explorer 9 and below will render text gray with a nasty text-shadow that we cannot fix.\par
+Anchor element\par
+Add the .disabled class to <a> buttons.\par
+\par
+Primary link Link\par
+\par
+Copy\par
+<a href="#" class="btn btn-primary btn-lg disabled" role="button">Primary link</a>\par
+<a href="#" class="btn btn-default btn-lg disabled" role="button">Link</a>\par
+We use .disabled as a utility class here, similar to the common .active class, so no prefix is required.\par
+\par
+Link functionality caveat\par
+This class uses pointer-events: none to try to disable the link functionality of <a>s, but that CSS property is not yet standardized and isn't fully supported in Opera 18 and below, or in Internet Explorer 11. In addition, even in browsers that do support pointer-events: none, keyboard navigation remains unaffected, meaning that sighted keyboard users and users of assistive technologies will still be able to activate these links. So to be safe, use custom JavaScript to disable such links.\par
+Images\par
+\par
+Responsive images\par
+Images in Bootstrap 3 can be made responsive-friendly via the addition of the .img-responsive class. This applies max-width: 100%;, height: auto; and display: block; to the image so that it scales nicely to the parent element.\par
+\par
+To center images which use the .img-responsive class, use .center-block instead of .text-center. See the helper classes section for more details about .center-block usage.\par
+\par
+SVG images and IE 8-10\par
+In Internet Explorer 8-10, SVG images with .img-responsive are disproportionately sized. To fix this, add width: 100% \\9; where necessary. Bootstrap doesn't apply this automatically as it causes complications to other image formats.\par
+Copy\par
+<img src="..." class="img-responsive" alt="Responsive image">\par
+Image shapes\par
+Add classes to an <img> element to easily style images in any project.\par
+\par
+Cross-browser compatibility\par
+Keep in mind that Internet Explorer 8 lacks support for rounded corners.\par
+140x140 140x140 140x140\par
+Copy\par
+<img src="..." alt="..." class="img-rounded">\par
+<img src="..." alt="..." class="img-circle">\par
+<img src="..." alt="..." class="img-thumbnail">\par
+Helper classes\par
+\par
+Contextual colors\par
+Convey meaning through color with a handful of emphasis utility classes. These may also be applied to links and will darken on hover just like our default link styles.\par
+\par
+Fusce dapibus, tellus ac cursus commodo, tortor mauris nibh.\par
+\par
+Nullam id dolor id nibh ultricies vehicula ut id elit.\par
+\par
+Duis mollis, est non commodo luctus, nisi erat porttitor ligula.\par
+\par
+Maecenas sed diam eget risus varius blandit sit amet non magna.\par
+\par
+Etiam porta sem malesuada magna mollis euismod.\par
+\par
+Donec ullamcorper nulla non metus auctor fringilla.\par
+Copy\par
+<p class="text-muted">...</p>\par
+<p class="text-primary">...</p>\par
+<p class="text-success">...</p>\par
+<p class="text-info">...</p>\par
+<p class="text-warning">...</p>\par
+<p class="text-danger">...</p>\par
+Dealing with specificity\par
+Sometimes emphasis classes cannot be applied due to the specificity of another selector. In most cases, a sufficient workaround is to wrap your text in a <span> with the class.\par
+Conveying meaning to assistive technologies\par
+Using color to add meaning only provides a visual indication, which will not be conveyed to users of assistive technologies \endash  such as screen readers. Ensure that information denoted by the color is either obvious from the content itself (the contextual colors are only used to reinforce meaning that is already present in the text/markup), or is included through alternative means, such as additional text hidden with the .sr-only class.\par
+Contextual backgrounds\par
+Similar to the contextual text color classes, easily set the background of an element to any contextual class. Anchor components will darken on hover, just like the text classes.\par
+\par
+Nullam id dolor id nibh ultricies vehicula ut id elit.\par
+\par
+Duis mollis, est non commodo luctus, nisi erat porttitor ligula.\par
+\par
+Maecenas sed diam eget risus varius blandit sit amet non magna.\par
+\par
+Etiam porta sem malesuada magna mollis euismod.\par
+\par
+Donec ullamcorper nulla non metus auctor fringilla.\par
+Copy\par
+<p class="bg-primary">...</p>\par
+<p class="bg-success">...</p>\par
+<p class="bg-info">...</p>\par
+<p class="bg-warning">...</p>\par
+<p class="bg-danger">...</p>\par
+Dealing with specificity\par
+Sometimes contextual background classes cannot be applied due to the specificity of another selector. In some cases, a sufficient workaround is to wrap your element's content in a <div> with the class.\par
+Conveying meaning to assistive technologies\par
+As with contextual colors, ensure that any meaning conveyed through color is also conveyed in a format that is not purely presentational.\par
+Close icon\par
+Use the generic close icon for dismissing content like modals and alerts.\par
+\par
+\f0\'d7\par
+Copy\par
+<button type="button" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button>\par
+Carets\par
+Use carets to indicate dropdown functionality and direction. Note that the default caret will reverse automatically in dropup menus.\par
+\par
+Copy\par
+<span class="caret"></span>\par
+Quick floats\par
+Float an element to the left or right with a class. !important is included to avoid specificity issues. Classes can also be used as mixins.\par
+\par
+Copy\par
+<div class="pull-left">...</div>\par
+<div class="pull-right">...</div>\par
+Copy\par
+// Classes\par
+.pull-left \{\par
+  float: left !important;\par
+\}\par
+.pull-right \{\par
+  float: right !important;\par
+\}\par
+\par
+// Usage as mixins\par
+.element \{\par
+  .pull-left();\par
+\}\par
+.another-element \{\par
+  .pull-right();\par
+\}\par
+Not for use in navbars\par
+To align components in navbars with utility classes, use .navbar-left or .navbar-right instead. See the navbar docs for details.\par
+Center content blocks\par
+Set an element to display: block and center via margin. Available as a mixin and class.\par
+\par
+Copy\par
+<div class="center-block">...</div>\par
+Copy\par
+// Class\par
+.center-block \{\par
+  display: block;\par
+  margin-left: auto;\par
+  margin-right: auto;\par
+\}\par
+\par
+// Usage as a mixin\par
+.element \{\par
+  .center-block();\par
+\}\par
+Clearfix\par
+Easily clear floats by adding .clearfix to the parent element. Utilizes the micro clearfix as popularized by Nicolas Gallagher. Can also be used as a mixin.\par
+\par
+Copy\par
+<!-- Usage as a class -->\par
+<div class="clearfix">...</div>\par
+Copy\par
+// Mixin itself\par
+.clearfix() \{\par
+  &:before,\par
+  &:after \{\par
+    content: " ";\par
+    display: table;\par
+  \}\par
+  &:after \{\par
+    clear: both;\par
+  \}\par
+\}\par
+\par
+// Usage as a mixin\par
+.element \{\par
+  .clearfix();\par
+\}\par
+Showing and hiding content\par
+Force an element to be shown or hidden (including for screen readers) with the use of .show and .hidden classes. These classes use !important to avoid specificity conflicts, just like the quick floats. They are only available for block level toggling. They can also be used as mixins.\par
+\par
+.hide is available, but it does not always affect screen readers and is deprecated as of v3.0.1. Use .hidden or .sr-only instead.\par
+\par
+Furthermore, .invisible can be used to toggle only the visibility of an element, meaning its display is not modified and the element can still affect the flow of the document.\par
+\par
+Copy\par
+<div class="show">...</div>\par
+<div class="hidden">...</div>\par
+Copy\par
+// Classes\par
+.show \{\par
+  display: block !important;\par
+\}\par
+.hidden \{\par
+  display: none !important;\par
+\}\par
+.invisible \{\par
+  visibility: hidden;\par
+\}\par
+\par
+// Usage as mixins\par
+.element \{\par
+  .show();\par
+\}\par
+.another-element \{\par
+  .hidden();\par
+\}\par
+Screen reader and keyboard navigation content\par
+Hide an element to all devices except screen readers with .sr-only. Combine .sr-only with .sr-only-focusable to show the element again when it's focused (e.g. by a keyboard-only user). Necessary for following accessibility best practices. Can also be used as mixins.\par
+\par
+Copy\par
+<a class="sr-only sr-only-focusable" href="#content">Skip to main content</a>\par
+Copy\par
+// Usage as a mixin\par
+.skip-navigation \{\par
+  .sr-only();\par
+  .sr-only-focusable();\par
+\}\par
+Image replacement\par
+Utilize the .text-hide class or mixin to help replace an element's text content with a background image.\par
+\par
+Copy\par
+<h1 class="text-hide">Custom heading</h1>\par
+Copy\par
+// Usage as a mixin\par
+.heading \{\par
+  .text-hide();\par
+\}\par
+Responsive utilities\par
+\par
+For faster mobile-friendly development, use these utility classes for showing and hiding content by device via media query. Also included are utility classes for toggling content when printed.\par
+\par
+Try to use these on a limited basis and avoid creating entirely different versions of the same site. Instead, use them to complement each device's presentation.\par
+\par
+Available classes\par
+Use a single or combination of the available classes for toggling content across viewport breakpoints.\par
+\par
+Extra small devices\par
+Phones (<768px)\par
+Small devices\par
+Tablets (\f1\u8805?\f0 768px)\par
+Medium devices\par
+Desktops (\f1\u8805?\f0 992px)\par
+Large devices\par
+Desktops (\f1\u8805?\f0 1200px)\par
+.visible-xs-*\tab Visible\tab Hidden\tab Hidden\tab Hidden\par
+.visible-sm-*\tab Hidden\tab Visible\tab Hidden\tab Hidden\par
+.visible-md-*\tab Hidden\tab Hidden\tab Visible\tab Hidden\par
+.visible-lg-*\tab Hidden\tab Hidden\tab Hidden\tab Visible\par
+.hidden-xs\tab Hidden\tab Visible\tab Visible\tab Visible\par
+.hidden-sm\tab Visible\tab Hidden\tab Visible\tab Visible\par
+.hidden-md\tab Visible\tab Visible\tab Hidden\tab Visible\par
+.hidden-lg\tab Visible\tab Visible\tab Visible\tab Hidden\par
+As of v3.2.0, the .visible-*-* classes for each breakpoint come in three variations, one for each CSS display property value listed below.\par
+\par
+Group of classes\tab CSS display\par
+.visible-*-block\tab display: block;\par
+.visible-*-inline\tab display: inline;\par
+.visible-*-inline-block\tab display: inline-block;\par
+So, for extra small (xs) screens for example, the available .visible-*-* classes are: .visible-xs-block, .visible-xs-inline, and .visible-xs-inline-block.\par
+\par
+The classes .visible-xs, .visible-sm, .visible-md, and .visible-lg also exist, but are deprecated as of v3.2.0. They are approximately equivalent to .visible-*-block, except with additional special cases for toggling <table>-related elements.\par
+\par
+Print classes\par
+Similar to the regular responsive classes, use these for toggling content for print.\par
+\par
+Classes\tab Browser\tab Print\par
+.visible-print-block\par
+.visible-print-inline\par
+.visible-print-inline-block\tab Hidden\tab Visible\par
+.hidden-print\tab Visible\tab Hidden\par
+The class .visible-print also exists but is deprecated as of v3.2.0. It is approximately equivalent to .visible-print-block, except with additional special cases for <table>-related elements.\par
+\par
+Test cases\par
+Resize your browser or load on different devices to test the responsive utility classes.\par
+\par
+Visible on...\par
+Green checkmarks indicate the element is visible in your current viewport.\par
+\par
+Extra small\par
+Small\par
+Medium\par
+\f3\u10004?\f0  Visible on large\par
+Extra small and small\par
+\f3\u10004?\f0  Visible on medium and large\par
+Extra small and medium\par
+\f3\u10004?\f0  Visible on small and large\par
+\f3\u10004?\f0  Visible on x-small and large\par
+Small and medium\par
+Hidden on...\par
+Here, green checkmarks also indicate the element is hidden in your current viewport.\par
+\par
+Extra small\par
+Small\par
+Medium\par
+\f3\u10004?\f0  Hidden on large\par
+Extra small and small\par
+\f3\u10004?\f0  Hidden on medium and large\par
+Extra small and medium\par
+\f3\u10004?\f0  Hidden on small and large\par
+\f3\u10004?\f0  Hidden on x-small and large\par
+Small and medium\par
+Using Less\par
+\par
+Bootstrap's CSS is built on Less, a preprocessor with additional functionality like variables, mixins, and functions for compiling CSS. Those looking to use the source Less files instead of our compiled CSS files can make use of the numerous variables and mixins we use throughout the framework.\par
+\par
+Grid variables and mixins are covered within the Grid system section.\par
+\par
+Compiling Bootstrap\par
+Bootstrap can be used in at least two ways: with the compiled CSS or with the source Less files. To compile the Less files, consult the Getting Started section for how to setup your development environment to run the necessary commands.\par
+\par
+Third party compilation tools may work with Bootstrap, but they are not supported by our core team.\par
+\par
+Variables\par
+Variables are used throughout the entire project as a way to centralize and share commonly used values like colors, spacing, or font stacks. For a complete breakdown, please see the Customizer.\par
+\par
+Colors\par
+Easily make use of two color schemes: grayscale and semantic. Grayscale colors provide quick access to commonly used shades of black while semantic include various colors assigned to meaningful contextual values.\par
+\par
+Copy\par
+@gray-darker:  lighten(#000, 13.5%); // #222\par
+@gray-dark:    lighten(#000, 20%);   // #333\par
+@gray:         lighten(#000, 33.5%); // #555\par
+@gray-light:   lighten(#000, 46.7%); // #777\par
+@gray-lighter: lighten(#000, 93.5%); // #eee\par
+Copy\par
+@brand-primary: darken(#428bca, 6.5%); // #337ab7\par
+@brand-success: #5cb85c;\par
+@brand-info:    #5bc0de;\par
+@brand-warning: #f0ad4e;\par
+@brand-danger:  #d9534f;\par
+Use any of these color variables as they are or reassign them to more meaningful variables for your project.\par
+\par
+Copy\par
+// Use as-is\par
+.masthead \{\par
+  background-color: @brand-primary;\par
+\}\par
+\par
+// Reassigned variables in Less\par
+@alert-message-background: @brand-info;\par
+.alert \{\par
+  background-color: @alert-message-background;\par
+\}\par
+Scaffolding\par
+A handful of variables for quickly customizing key elements of your site's skeleton.\par
+\par
+Copy\par
+// Scaffolding\par
+@body-bg:    #fff;\par
+@text-color: @black-50;\par
+Links\par
+Easily style your links with the right color with only one value.\par
+\par
+Copy\par
+// Variables\par
+@link-color:       @brand-primary;\par
+@link-hover-color: darken(@link-color, 15%);\par
+\par
+// Usage\par
+a \{\par
+  color: @link-color;\par
+  text-decoration: none;\par
+\par
+  &:hover \{\par
+    color: @link-hover-color;\par
+    text-decoration: underline;\par
+  \}\par
+\}\par
+Note that the @link-hover-color uses a function, another awesome tool from Less, to automagically create the right hover color. You can use darken, lighten, saturate, and desaturate.\par
+\par
+Typography\par
+Easily set your typeface, text size, leading, and more with a few quick variables. Bootstrap makes use of these as well to provide easy typographic mixins.\par
+\par
+Copy\par
+@font-family-sans-serif:  "Helvetica Neue", Helvetica, Arial, sans-serif;\par
+@font-family-serif:       Georgia, "Times New Roman", Times, serif;\par
+@font-family-monospace:   Menlo, Monaco, Consolas, "Courier New", monospace;\par
+@font-family-base:        @font-family-sans-serif;\par
+\par
+@font-size-base:          14px;\par
+@font-size-large:         ceil((@font-size-base * 1.25)); // ~18px\par
+@font-size-small:         ceil((@font-size-base * 0.85)); // ~12px\par
+\par
+@font-size-h1:            floor((@font-size-base * 2.6)); // ~36px\par
+@font-size-h2:            floor((@font-size-base * 2.15)); // ~30px\par
+@font-size-h3:            ceil((@font-size-base * 1.7)); // ~24px\par
+@font-size-h4:            ceil((@font-size-base * 1.25)); // ~18px\par
+@font-size-h5:            @font-size-base;\par
+@font-size-h6:            ceil((@font-size-base * 0.85)); // ~12px\par
+\par
+@line-height-base:        1.428571429; // 20/14\par
+@line-height-computed:    floor((@font-size-base * @line-height-base)); // ~20px\par
+\par
+@headings-font-family:    inherit;\par
+@headings-font-weight:    500;\par
+@headings-line-height:    1.1;\par
+@headings-color:          inherit;\par
+Icons\par
+Two quick variables for customizing the location and filename of your icons.\par
+\par
+Copy\par
+@icon-font-path:          "../fonts/";\par
+@icon-font-name:          "glyphicons-halflings-regular";\par
+Components\par
+Components throughout Bootstrap make use of some default variables for setting common values. Here are the most commonly used.\par
+\par
+Copy\par
+@padding-base-vertical:          6px;\par
+@padding-base-horizontal:        12px;\par
+\par
+@padding-large-vertical:         10px;\par
+@padding-large-horizontal:       16px;\par
+\par
+@padding-small-vertical:         5px;\par
+@padding-small-horizontal:       10px;\par
+\par
+@padding-xs-vertical:            1px;\par
+@padding-xs-horizontal:          5px;\par
+\par
+@line-height-large:              1.33;\par
+@line-height-small:              1.5;\par
+\par
+@border-radius-base:             4px;\par
+@border-radius-large:            6px;\par
+@border-radius-small:            3px;\par
+\par
+@component-active-color:         #fff;\par
+@component-active-bg:            @brand-primary;\par
+\par
+@caret-width-base:               4px;\par
+@caret-width-large:              5px;\par
+Vendor mixins\par
+Vendor mixins are mixins to help support multiple browsers by including all relevant vendor prefixes in your compiled CSS.\par
+\par
+Box-sizing\par
+Reset your components' box model with a single mixin. For context, see this helpful article from Mozilla.\par
+\par
+The mixin is deprecated as of v3.2.0, with the introduction of Autoprefixer. To preserve backwards-compatibility, Bootstrap will continue to use the mixin internally until Bootstrap v4.\par
+\par
+Copy\par
+.box-sizing(@box-model) \{\par
+  -webkit-box-sizing: @box-model; // Safari <= 5\par
+     -moz-box-sizing: @box-model; // Firefox <= 19\par
+          box-sizing: @box-model;\par
+\}\par
+Rounded corners\par
+Today all modern browsers support the non-prefixed border-radius property. As such, there is no .border-radius() mixin, but Bootstrap does include shortcuts for quickly rounding two corners on a particular side of an object.\par
+\par
+Copy\par
+.border-top-radius(@radius) \{\par
+  border-top-right-radius: @radius;\par
+   border-top-left-radius: @radius;\par
+\}\par
+.border-right-radius(@radius) \{\par
+  border-bottom-right-radius: @radius;\par
+     border-top-right-radius: @radius;\par
+\}\par
+.border-bottom-radius(@radius) \{\par
+  border-bottom-right-radius: @radius;\par
+   border-bottom-left-radius: @radius;\par
+\}\par
+.border-left-radius(@radius) \{\par
+  border-bottom-left-radius: @radius;\par
+     border-top-left-radius: @radius;\par
+\}\par
+Box (Drop) shadows\par
+If your target audience is using the latest and greatest browsers and devices, be sure to just use the box-shadow property on its own. If you need support for older Android (pre-v4) and iOS devices (pre-iOS 5), use the deprecated mixin to pick up the required -webkit prefix.\par
+\par
+The mixin is deprecated as of v3.1.0, since Bootstrap doesn't officially support the outdated platforms that don't support the standard property. To preserve backwards-compatibility, Bootstrap will continue to use the mixin internally until Bootstrap v4.\par
+\par
+Be sure to use rgba() colors in your box shadows so they blend as seamlessly as possible with backgrounds.\par
+\par
+Copy\par
+.box-shadow(@shadow: 0 1px 3px rgba(0,0,0,.25)) \{\par
+  -webkit-box-shadow: @shadow; // iOS <4.3 & Android <4.1\par
+          box-shadow: @shadow;\par
+\}\par
+Transitions\par
+Multiple mixins for flexibility. Set all transition information with one, or specify a separate delay and duration as needed.\par
+\par
+The mixins are deprecated as of v3.2.0, with the introduction of Autoprefixer. To preserve backwards-compatibility, Bootstrap will continue to use the mixins internally until Bootstrap v4.\par
+\par
+Copy\par
+.transition(@transition) \{\par
+  -webkit-transition: @transition;\par
+          transition: @transition;\par
+\}\par
+.transition-property(@transition-property) \{\par
+  -webkit-transition-property: @transition-property;\par
+          transition-property: @transition-property;\par
+\}\par
+.transition-delay(@transition-delay) \{\par
+  -webkit-transition-delay: @transition-delay;\par
+          transition-delay: @transition-delay;\par
+\}\par
+.transition-duration(@transition-duration) \{\par
+  -webkit-transition-duration: @transition-duration;\par
+          transition-duration: @transition-duration;\par
+\}\par
+.transition-timing-function(@timing-function) \{\par
+  -webkit-transition-timing-function: @timing-function;\par
+          transition-timing-function: @timing-function;\par
+\}\par
+.transition-transform(@transition) \{\par
+  -webkit-transition: -webkit-transform @transition;\par
+     -moz-transition: -moz-transform @transition;\par
+       -o-transition: -o-transform @transition;\par
+          transition: transform @transition;\par
+\}\par
+Transformations\par
+Rotate, scale, translate (move), or skew any object.\par
+\par
+The mixins are deprecated as of v3.2.0, with the introduction of Autoprefixer. To preserve backwards-compatibility, Bootstrap will continue to use the mixins internally until Bootstrap v4.\par
+\par
+Copy\par
+.rotate(@degrees) \{\par
+  -webkit-transform: rotate(@degrees);\par
+      -ms-transform: rotate(@degrees); // IE9 only\par
+          transform: rotate(@degrees);\par
+\}\par
+.scale(@ratio; @ratio-y...) \{\par
+  -webkit-transform: scale(@ratio, @ratio-y);\par
+      -ms-transform: scale(@ratio, @ratio-y); // IE9 only\par
+          transform: scale(@ratio, @ratio-y);\par
+\}\par
+.translate(@x; @y) \{\par
+  -webkit-transform: translate(@x, @y);\par
+      -ms-transform: translate(@x, @y); // IE9 only\par
+          transform: translate(@x, @y);\par
+\}\par
+.skew(@x; @y) \{\par
+  -webkit-transform: skew(@x, @y);\par
+      -ms-transform: skewX(@x) skewY(@y); // See {{\field{\*\fldinst{HYPERLINK https://github.com/twbs/bootstrap/issues/4885 }}{\fldrslt{https://github.com/twbs/bootstrap/issues/4885\ul0\cf0}}}}\f0\fs22 ; IE9+\par
+          transform: skew(@x, @y);\par
+\}\par
+.translate3d(@x; @y; @z) \{\par
+  -webkit-transform: translate3d(@x, @y, @z);\par
+          transform: translate3d(@x, @y, @z);\par
+\}\par
+\par
+.rotateX(@degrees) \{\par
+  -webkit-transform: rotateX(@degrees);\par
+      -ms-transform: rotateX(@degrees); // IE9 only\par
+          transform: rotateX(@degrees);\par
+\}\par
+.rotateY(@degrees) \{\par
+  -webkit-transform: rotateY(@degrees);\par
+      -ms-transform: rotateY(@degrees); // IE9 only\par
+          transform: rotateY(@degrees);\par
+\}\par
+.perspective(@perspective) \{\par
+  -webkit-perspective: @perspective;\par
+     -moz-perspective: @perspective;\par
+          perspective: @perspective;\par
+\}\par
+.perspective-origin(@perspective) \{\par
+  -webkit-perspective-origin: @perspective;\par
+     -moz-perspective-origin: @perspective;\par
+          perspective-origin: @perspective;\par
+\}\par
+.transform-origin(@origin) \{\par
+  -webkit-transform-origin: @origin;\par
+     -moz-transform-origin: @origin;\par
+      -ms-transform-origin: @origin; // IE9 only\par
+          transform-origin: @origin;\par
+\}\par
+Animations\par
+A single mixin for using all of CSS3's animation properties in one declaration and other mixins for individual properties.\par
+\par
+The mixins are deprecated as of v3.2.0, with the introduction of Autoprefixer. To preserve backwards-compatibility, Bootstrap will continue to use the mixins internally until Bootstrap v4.\par
+\par
+Copy\par
+.animation(@animation) \{\par
+  -webkit-animation: @animation;\par
+          animation: @animation;\par
+\}\par
+.animation-name(@name) \{\par
+  -webkit-animation-name: @name;\par
+          animation-name: @name;\par
+\}\par
+.animation-duration(@duration) \{\par
+  -webkit-animation-duration: @duration;\par
+          animation-duration: @duration;\par
+\}\par
+.animation-timing-function(@timing-function) \{\par
+  -webkit-animation-timing-function: @timing-function;\par
+          animation-timing-function: @timing-function;\par
+\}\par
+.animation-delay(@delay) \{\par
+  -webkit-animation-delay: @delay;\par
+          animation-delay: @delay;\par
+\}\par
+.animation-iteration-count(@iteration-count) \{\par
+  -webkit-animation-iteration-count: @iteration-count;\par
+          animation-iteration-count: @iteration-count;\par
+\}\par
+.animation-direction(@direction) \{\par
+  -webkit-animation-direction: @direction;\par
+          animation-direction: @direction;\par
+\}\par
+Opacity\par
+Set the opacity for all browsers and provide a filter fallback for IE8.\par
+\par
+Copy\par
+.opacity(@opacity) \{\par
+  opacity: @opacity;\par
+  // IE8 filter\par
+  @opacity-ie: (@opacity * 100);\par
+  filter: ~"alpha(opacity=@\{opacity-ie\})";\par
+\}\par
+Placeholder text\par
+Provide context for form controls within each field.\par
+\par
+Copy\par
+.placeholder(@color: @input-color-placeholder) \{\par
+  &::-moz-placeholder           \{ color: @color; \} // Firefox\par
+  &:-ms-input-placeholder       \{ color: @color; \} // Internet Explorer 10+\par
+  &::-webkit-input-placeholder  \{ color: @color; \} // Safari and Chrome\par
+\}\par
+Columns\par
+Generate columns via CSS within a single element.\par
+\par
+Copy\par
+.content-columns(@width; @count; @gap) \{\par
+  -webkit-column-width: @width;\par
+     -moz-column-width: @width;\par
+          column-width: @width;\par
+  -webkit-column-count: @count;\par
+     -moz-column-count: @count;\par
+          column-count: @count;\par
+  -webkit-column-gap: @gap;\par
+     -moz-column-gap: @gap;\par
+          column-gap: @gap;\par
+\}\par
+Gradients\par
+Easily turn any two colors into a background gradient. Get more advanced and set a direction, use three colors, or use a radial gradient. With a single mixin you get all the prefixed syntaxes you'll need.\par
+\par
+Copy\par
+#gradient > .vertical(#333; #000);\par
+#gradient > .horizontal(#333; #000);\par
+#gradient > .radial(#333; #000);\par
+You can also specify the angle of a standard two-color, linear gradient:\par
+\par
+Copy\par
+#gradient > .directional(#333; #000; 45deg);\par
+If you need a barber-stripe style gradient, that's easy, too. Just specify a single color and we'll overlay a translucent white stripe.\par
+\par
+Copy\par
+#gradient > .striped(#333; 45deg);\par
+Up the ante and use three colors instead. Set the first color, the second color, the second color's color stop (a percentage value like 25%), and the third color with these mixins:\par
+\par
+Copy\par
+#gradient > .vertical-three-colors(#777; #333; 25%; #000);\par
+#gradient > .horizontal-three-colors(#777; #333; 25%; #000);\par
+Heads up! Should you ever need to remove a gradient, be sure to remove any IE-specific filter you may have added. You can do that by using the .reset-filter() mixin alongside background-image: none;.\par
+\par
+Utility mixins\par
+Utility mixins are mixins that combine otherwise unrelated CSS properties to achieve a specific goal or task.\par
+\par
+Clearfix\par
+Forget adding class="clearfix" to any element and instead add the .clearfix() mixin where appropriate. Uses the micro clearfix from Nicolas Gallagher.\par
+\par
+Copy\par
+// Mixin\par
+.clearfix() \{\par
+  &:before,\par
+  &:after \{\par
+    content: " ";\par
+    display: table;\par
+  \}\par
+  &:after \{\par
+    clear: both;\par
+  \}\par
+\}\par
+\par
+// Usage\par
+.container \{\par
+  .clearfix();\par
+\}\par
+Horizontal centering\par
+Quickly center any element within its parent. Requires width or max-width to be set.\par
+\par
+Copy\par
+// Mixin\par
+.center-block() \{\par
+  display: block;\par
+  margin-left: auto;\par
+  margin-right: auto;\par
+\}\par
+\par
+// Usage\par
+.container \{\par
+  width: 940px;\par
+  .center-block();\par
+\}\par
+Sizing helpers\par
+Specify the dimensions of an object more easily.\par
+\par
+Copy\par
+// Mixins\par
+.size(@width; @height) \{\par
+  width: @width;\par
+  height: @height;\par
+\}\par
+.square(@size) \{\par
+  .size(@size; @size);\par
+\}\par
+\par
+// Usage\par
+.image \{ .size(400px; 300px); \}\par
+.avatar \{ .square(48px); \}\par
+Resizable textareas\par
+Easily configure the resize options for any textarea, or any other element. Defaults to normal browser behavior (both).\par
+\par
+Copy\par
+.resizable(@direction: both) \{\par
+  // Options: horizontal, vertical, both\par
+  resize: @direction;\par
+  // Safari fix\par
+  overflow: auto;\par
+\}\par
+Truncating text\par
+Easily truncate text with an ellipsis with a single mixin. Requires element to be block or inline-block level.\par
+\par
+Copy\par
+// Mixin\par
+.text-overflow() \{\par
+  overflow: hidden;\par
+  text-overflow: ellipsis;\par
+  white-space: nowrap;\par
+\}\par
+\par
+// Usage\par
+.branch-name \{\par
+  display: inline-block;\par
+  max-width: 200px;\par
+  .text-overflow();\par
+\}\par
+Retina images\par
+Specify two image paths and the @1x image dimensions, and Bootstrap will provide an @2x media query. If you have many images to serve, consider writing your retina image CSS manually in a single media query.\par
+\par
+Copy\par
+.img-retina(@file-1x; @file-2x; @width-1x; @height-1x) \{\par
+  background-image: url("@\{file-1x\}");\par
+\par
+  @media\par
+  only screen and (-webkit-min-device-pixel-ratio: 2),\par
+  only screen and (   min--moz-device-pixel-ratio: 2),\par
+  only screen and (     -o-min-device-pixel-ratio: 2/1),\par
+  only screen and (        min-device-pixel-ratio: 2),\par
+  only screen and (                min-resolution: 192dpi),\par
+  only screen and (                min-resolution: 2dppx) \{\par
+    background-image: url("@\{file-2x\}");\par
+    background-size: @width-1x @height-1x;\par
+  \}\par
+\}\par
+\par
+// Usage\par
+.jumbotron \{\par
+  .img-retina("/img/bg-1x.png", "/img/bg-2x.png", 100px, 100px);\par
+\}\par
+Using Sass\par
+\par
+While Bootstrap is built on Less, it also has an official Sass port. We maintain it in a separate GitHub repository and handle updates with a conversion script.\par
+\par
+What's included\par
+Since the Sass port has a separate repo and serves a slightly different audience, the contents of the project differ greatly from the main Bootstrap project. This ensures the Sass port is as compatible with as many Sass-based systems as possible.\par
+\par
+Path\tab Description\par
+lib/\tab Ruby gem code (Sass configuration, Rails and Compass integrations)\par
+tasks/\tab Converter scripts (turning upstream Less to Sass)\par
+test/\tab Compilation tests\par
+templates/\tab Compass package manifest\par
+vendor/assets/\tab Sass, JavaScript, and font files\par
+Rakefile\tab Internal tasks, such as rake and convert\lang9\par
+}
+ 
